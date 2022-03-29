@@ -28,6 +28,9 @@ export let dataHandler = {
     },
     deleteSpecificCard: async function(cardId) {
         await apiPost(`/delete-card/${cardId}`)
+    },
+    addBoard: async function (boardTitle){
+        await apiPost(`/add-board/${boardTitle}`)
     }
 };
 
