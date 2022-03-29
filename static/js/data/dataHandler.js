@@ -25,6 +25,9 @@ export let dataHandler = {
     },
     renameBoard: async function(boardId, boardTitle) {
         await apiPost(`/rename-board-by-id/${boardId}/${boardTitle}`)
+    },
+    renameColumn: async function(columnId, columnTitle) {
+        await apiPost(`/rename-column-by-id/${columnId}/${columnTitle}`)
     }
 };
 

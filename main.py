@@ -52,6 +52,12 @@ def rename_board_by_id(board_id, board_title):
     queries.rename_board_by_id(board_id, board_title)
 
 
+@app.route("/rename-column-by-id/<int:column_id>/<string:column_title>", methods=["POST"])
+@json_response
+def rename_column_by_id(column_id, column_title):
+    queries.rename_column_by_id(column_id, column_title)
+
+
 def main():
     app.run(debug=True)
 

@@ -54,9 +54,16 @@ def rename_board_by_id(cursor, board_id, board_title):
             UPDATE boards
             SET title = {board_title}
             WHERE id = {board_id}
-        """).format(
-            board_id=sql.Literal(board_id),
-            board_title=sql.Literal(board_title)
-        )
+        """).format(board_id=sql.Literal(board_id), board_title=sql.Literal(board_title))
     )
 
+
+@data_manager.connection_handler
+def rename_column_by_id(cursor, column_id, column_title):
+    cursor.execute(
+        sql.SQL("""
+            UPDATE statuses
+            SET title = {column_title}
+            WHERE id = {column_id}
+        """).format(column_id=sql.Literal(column_id), column_title=sql.Literal(column_title))
+    )

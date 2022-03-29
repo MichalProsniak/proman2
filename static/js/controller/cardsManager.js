@@ -17,6 +17,7 @@ export let cardsManager = {
                     const cardBuilder = htmlFactory(htmlTemplates.card);
                     const content = cardBuilder(card, column);
                     domManager.addChild(`.board-column-content[data-column-id="${boardId}${column.id}"]`, content);
+                    domManager.addEventListener(`.board-column-content[data-column-id="${boardId}${column.id}"]`, "click", changeColumnTitle)
                     domManager.addEventListener(
                         `.card[data-card-id="${card.id}"]`,
                         "click",
@@ -29,4 +30,21 @@ export let cardsManager = {
 };
 
 function deleteButtonHandler(clickEvent) {
+}
+
+
+function changeColumnTitle(clickEvent) {
+    const columnId = clickEvent.target.attributes['data-column-id'].nodeValue[0];
+
+    let element = document.querySelector(`.board-column-title[data-column-id='${columnId}']`)
+    let oldTitle = element.innerText
+    element.addEventListener('focusout', async () => {
+        let title = element.innerText
+        if (title === '') {
+            element.innerText = 'no name'
+            await dataHandler.renameColumn(columnId, 'no name')
+        } else if (title !== oldTitle || title === oldTitle) {
+            await dataHandler.renameColumn(columnId, title)
+        }
+    })
 }
