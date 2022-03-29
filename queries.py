@@ -61,3 +61,16 @@ def rename_board_by_id(cursor, board_id, board_title):
         )
     )
 
+
+@data_manager.connection_handler
+def delete_specific_card(cursor, card_id):
+    cursor.execute(
+        sql.SQL("""
+            DELETE FROM cards 
+            WHERE id = {card_id};
+
+        """).format(
+            card_id=sql.Literal(card_id),
+        )
+    )
+

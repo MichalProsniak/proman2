@@ -16,7 +16,7 @@ export let cardsManager = {
                     const content = cardBuilder(card, column);
                     domManager.addChild(`.board-column-content[data-column-id="${boardId}${column.id}"]`, content);
                     domManager.addEventListener(
-                        `.card[data-card-id="${card.id}"]`,
+                        `.card-remove[data-remove-card-id="${card.id}"]`,
                         "click",
                         deleteButtonHandler
                     );
@@ -26,5 +26,14 @@ export let cardsManager = {
     },
 };
 
-function deleteButtonHandler(clickEvent) {
+async function deleteButtonHandler(clickEvent) {
+    const cardId = clickEvent.target.dataset.removeCardId
+    let allCards = document.getElementsByClassName("card")
+    for (let card of allCards) {
+        if (card.dataset.cardId === cardId) {
+            card.remove();
+            break;
+        }
+    }
+    await dataHandler.deleteSpecificCard(cardId)
 }

@@ -52,6 +52,12 @@ def rename_board_by_id(board_id, board_title):
     queries.rename_board_by_id(board_id, board_title)
 
 
+@app.route("/delete-card/<int:card_id>", methods=["POST"])
+@json_response
+def delete_card(card_id):
+    queries.delete_specific_card(card_id)
+
+
 def main():
     app.run(debug=True)
 

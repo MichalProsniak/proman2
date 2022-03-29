@@ -25,6 +25,9 @@ export let dataHandler = {
     },
     renameBoard: async function(boardId, boardTitle) {
         await apiPost(`/rename-board-by-id/${boardId}/${boardTitle}`)
+    },
+    deleteSpecificCard: async function(cardId) {
+        await apiPost(`/delete-card/${cardId}`)
     }
 };
 
