@@ -5,9 +5,7 @@ import {domManager} from "../view/domManager.js";
 export let cardsManager = {
     loadCards: async function (boardId) {
         const statuses = await dataHandler.getStatuses();
-        console.log(statuses)
         const cards = await dataHandler.getCardsByBoardId(boardId);
-        console.log(cards)
         for (let column of statuses) {
             const columnBuilder = htmlFactory(htmlTemplates.status)
             const columnsContent = columnBuilder(column, boardId)
@@ -19,7 +17,7 @@ export let cardsManager = {
                     domManager.addChild(`.board-column-content[data-column-id="${boardId}${column.id}"]`, content);
                     domManager.addEventListener(`.board-column-content[data-column-id="${boardId}${column.id}"]`, "click", changeColumnTitle)
                     domManager.addEventListener(
-                        `.card[data-card-id="${card.id}"]`,
+                        `.card-remove[data-remove-card-id="${card.id}"]`,
                         "click",
                         deleteButtonHandler
                     );
@@ -29,7 +27,16 @@ export let cardsManager = {
     },
 };
 
-function deleteButtonHandler(clickEvent) {
+async function deleteButtonHandler(clickEvent) {
+    const cardId = clickEvent.target.dataset.removeCardId
+    let allCards = document.getElementsByClassName("card")
+    for (let card of allCards) {
+        if (card.dataset.cardId === cardId) {
+            card.remove();
+            break;
+        }
+    }
+    await dataHandler.deleteSpecificCard(cardId)
 }
 
 

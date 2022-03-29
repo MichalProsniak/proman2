@@ -25,6 +25,7 @@ def get_boards():
     return data_manager.execute_select(
         """
         SELECT * FROM boards
+        ORDER BY id
         ;""")
 
 
@@ -66,4 +67,21 @@ def rename_column_by_id(cursor, column_id, column_title):
             SET title = {column_title}
             WHERE id = {column_id}
         """).format(column_id=sql.Literal(column_id), column_title=sql.Literal(column_title))
+    )
+
+
+def add_board(cursor, new_title):
+    query = """
+    INSERT INTO boards (title)
+    VALUES (%s);"""
+    cursor.execute(query, (new_title,))
+
+
+@data_manager.connection_handler
+def delete_specific_card(cursor, card_id):
+    cursor.execute(
+        sql.SQL("""
+            DELETE FROM cards 
+            WHERE id = {card_id};
+        """).format(card_id=sql.Literal(card_id), )
     )

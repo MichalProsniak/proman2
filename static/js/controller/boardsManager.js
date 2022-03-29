@@ -22,8 +22,17 @@ export let boardsManager = {
 
 function showHideButtonHandler(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
-    console.log(boardId)
-    cardsManager.loadCards(boardId);
+    let button = document.getElementsByClassName(`toggle-board-button`)[boardId-1];
+    if (button.innerText === "Show cards") {
+        cardsManager.loadCards(boardId);
+        button.innerText = "Hide cards";
+    } else {
+        let columns = document.getElementsByClassName("board-columns")[boardId-1];
+        columns.remove();
+        let content = `<div class="board-columns" data-board-id="${boardId}"></div>`
+        domManager.addChild(`.board[data-board-id="${boardId}"]`, content);
+        button.innerText = "Show cards";
+    }
 }
 
 function changeBoardTitle(clickEvent) {
@@ -39,4 +48,55 @@ function changeBoardTitle(clickEvent) {
             await dataHandler.renameBoard(boardId, title)
         }
     })
+}
+
+
+// Get modal element
+var modal = document.getElementById('boardMdl');
+// Get open modal button
+var modalBtn = document.getElementById('mdlButton');
+// Get close button
+var closeBtn = document.getElementsByClassName('closeBtn')[0];
+
+// Listen for open click
+modalBtn.addEventListener('click', openModal);
+// Listen for close click
+closeBtn.addEventListener('click', closeModal);
+// Listen for outside click
+window.addEventListener('click', outsideClick);
+
+// Open modal
+function openModal(){
+  modal.style.display = 'block';
+  let addBtn = document.getElementById('add_board')
+        addBtn.addEventListener("click", async () => addNewBoard())
+}
+
+async function addNewBoard (){
+    let titleID = document.getElementById('board')
+    let titleValue = titleID.value
+    dataHandler.addBoard(titleValue)
+    clear ()
+    boardsManager.loadBoards()
+    modal.style.display = 'none'
+}
+async function clear(){
+    let boards = document.getElementsByClassName("board-container")
+    console.log (boards.length)
+    for (let i=0; i<boards.length;i++){
+        console.log(boards[i])
+        boards[i].innerHTML=""
+    }
+}
+
+// Close modal
+function closeModal(){
+  modal.style.display = 'none';
+}
+
+// Click outside and close
+function outsideClick(e){
+  if(e.target == modal){
+    modal.style.display = 'none';
+  }
 }

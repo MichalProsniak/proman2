@@ -28,6 +28,12 @@ export let dataHandler = {
     },
     renameColumn: async function(columnId, columnTitle) {
         await apiPost(`/rename-column-by-id/${columnId}/${columnTitle}`)
+    },
+    deleteSpecificCard: async function(cardId) {
+        await apiPost(`/delete-card/${cardId}`)
+    },
+    addBoard: async function (boardTitle){
+        await apiPost(`/add-board/${boardTitle}`)
     }
 };
 

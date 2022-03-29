@@ -58,6 +58,18 @@ def rename_column_by_id(column_id, column_title):
     queries.rename_column_by_id(column_id, column_title)
 
 
+@app.route("/add-board/<string:board_title>", methods=["POST"])
+@json_response
+def new_board(board_title):
+    queries.add_board(board_title)
+
+
+@app.route("/delete-card/<int:card_id>", methods=["POST"])
+@json_response
+def delete_card(card_id):
+    queries.delete_specific_card(card_id)
+
+
 def main():
     app.run(debug=True)
 
