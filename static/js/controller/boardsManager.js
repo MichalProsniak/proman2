@@ -76,8 +76,17 @@ async function addNewBoard (){
     let titleID = document.getElementById('board')
     let titleValue = titleID.value
     dataHandler.addBoard(titleValue)
+    clear ()
     boardsManager.loadBoards()
     modal.style.display = 'none'
+}
+async function clear(){
+    let boards = document.getElementsByClassName("board-container")
+    console.log (boards.length)
+    for (let i=0; i<boards.length;i++){
+        console.log(boards[i])
+        boards[i].innerHTML=""
+    }
 }
 
 // Close modal
