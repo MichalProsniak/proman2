@@ -14,6 +14,7 @@ def index():
     """
     This is a one-pager which shows all the boards and cards
     """
+
     return render_template('index.html')
 
 
@@ -34,6 +35,15 @@ def get_cards_for_board(board_id: int):
     :param board_id: id of the parent board
     """
     return queries.get_cards_for_board(board_id)
+
+
+@app.route("/api/statuses")
+@json_response
+def get_statuses():
+    """
+    All the statuses
+    """
+    return queries.get_all_columns_names()
 
 
 def main():

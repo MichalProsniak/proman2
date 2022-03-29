@@ -11,19 +11,25 @@ export let boardsManager = {
             const content = boardBuilder(board);
             domManager.addChild("#root", content);
             domManager.addEventListener(`.toggle-board-button[data-board-id="${board.id}"]`, "click", showHideButtonHandler)
-            domManager.addEventListener(`.board-title[title-id="${board.id}"]`, "click", changeBoardTitle)
+            domManager.addEventListener(`.board-title[data-title-id="${board.id}"]`, "click", changeBoardTitle)
+            domManager.addChild("#all-boards", content);
+            domManager.addEventListener(
+                `.toggle-board-button[data-board-id="${board.id}"]`,
+                "click",
+                showHideButtonHandler
+            );
         }
     },
 };
 
 function showHideButtonHandler(clickEvent) {
-    const boardId = clickEvent.target.dataset.boardId;
-    cardsManager.loadCards(boardId);
+        const boardId = clickEvent.target.dataset.boardId;
+        cardsManager.loadCards(boardId);
 }
 
 function changeBoardTitle(clickEvent) {
-    const boardId = clickEvent.target.attributes['title-id'].nodeValue;
-    let element = document.querySelector(`.board-title[title-id='${boardId}']`)
+    const boardId = clickEvent.target.attributes['data-title-id'].nodeValue;
+    let element = document.querySelector(`.board-title[data-title-id='${boardId}']`)
     let oldTitle = element.innerText
     element.addEventListener('focusout', async () => {
         let title = element.innerText
