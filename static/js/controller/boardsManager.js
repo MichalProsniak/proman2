@@ -22,7 +22,17 @@ export let boardsManager = {
 
 function showHideButtonHandler(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
-    cardsManager.loadCards(boardId);
+    let button = document.getElementsByClassName(`toggle-board-button`)[boardId-1];
+    if (button.innerText === "Show cards") {
+        cardsManager.loadCards(boardId);
+        button.innerText = "Hide cards";
+    } else {
+        let columns = document.getElementsByClassName("board-columns")[boardId-1];
+        columns.remove();
+        let content = `<div class="board-columns" data-board-id="${boardId}"></div>`
+        domManager.addChild(`.board[data-board-id="${boardId}"]`, content);
+        button.innerText = "Show cards";
+    }
 }
 
 function changeBoardTitle(clickEvent) {
