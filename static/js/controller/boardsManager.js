@@ -9,9 +9,8 @@ export let boardsManager = {
         for (let board of boards) {
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
-            domManager.addEventListener(`.toggle-board-button[data-board-id="${board.id}"]`, "click", showHideButtonHandler)
-            domManager.addEventListener(`.board-title[data-title-id="${board.id}"]`, "click", changeBoardTitle)
             domManager.addChild("#all-boards", content);
+            domManager.addEventListener(`.board-title[data-title-id="${board.id}"]`, "click", changeBoardTitle)
             domManager.addEventListener(
                 `.toggle-board-button[data-board-id="${board.id}"]`,
                 "click",
@@ -22,8 +21,9 @@ export let boardsManager = {
 };
 
 function showHideButtonHandler(clickEvent) {
-        const boardId = clickEvent.target.dataset.boardId;
-        cardsManager.loadCards(boardId);
+    const boardId = clickEvent.target.dataset.boardId;
+    console.log(boardId)
+    cardsManager.loadCards(boardId);
 }
 
 function changeBoardTitle(clickEvent) {
