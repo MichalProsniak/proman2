@@ -88,28 +88,40 @@ section.board{
 
 .card{
     position: relative;
-    background: #222;
-    color: #222;
+    /*background-color: pink;*/
+    /*color: #222;*/
     border-radius: var(--border-radius);
     margin: 4px 0;
     padding: 4px;
 }
 
-.board-column:nth-of-type(1) .card{
-    background: var(--status-1);
+.col1{
+    background-color: darkred;
 }
 
-.board-column:nth-of-type(2) .card{
-    background: var(--status-2);
+.col2 {
+    background-color: orangered;
 }
 
-.board-column:nth-of-type(3) .card{
-    background: var(--status-3);
+.col3 {
+    background-color: yellow;
 }
 
-.board-column:nth-of-type(4) .card{
-    background: var(--status-4);
+.col4 {
+    background-color: limegreen;
 }
+
+/*.board-column:nth-of-type(2) .card{*/
+/*    background-color: var(--status-2);*/
+/*}*/
+
+/*.board-column:nth-of-type(3) .card{*/
+/*    background-color: var(--status-3);*/
+/*}*/
+
+/*.board-column:nth-of-type(4) .card{*/
+/*    background-color: var(--status-4);*/
+/*}*/
 
 .card-remove{
     display: block;
@@ -122,4 +134,5 @@ section.board{
 
 .card-title{
     padding-right: 16px;
+    color: red
 }

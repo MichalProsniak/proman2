@@ -15,7 +15,7 @@ export let cardsManager = {
             for (let card of cards) {
                 if (card.status_id === column.id) {
                     const cardBuilder = htmlFactory(htmlTemplates.card);
-                    const content = cardBuilder(card);
+                    const content = cardBuilder(card, column);
                     domManager.addChild(`.board-column-content[data-column-id="${boardId}${column.id}"]`, content);
                     domManager.addEventListener(
                         `.card[data-card-id="${card.id}"]`,

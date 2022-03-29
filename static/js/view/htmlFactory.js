@@ -35,13 +35,14 @@ function boardBuilder(board) {
 
 }
 
-function cardBuilder(card) {
-    return `<div class="card" data-card-id="${card.id}">${card.title}</div>`;
+function cardBuilder(card, column) {
+    return `<div class="card-remove">x</div>
+            <div class="card col${column.id}" data-card-id="${card.id}" >${card.title} </div>`;
 }
 
 
 function columnBuilder(column, boardId) {
-    return `<div class="board-column" data-column-id="${column.id}">
+    return `<div class="board-column" data-column-id="${boardId}${column.id}">
                 <div class="board-column-title">${column.title}</div>
                 <div class="board-column-content" data-column-id="${boardId}${column.id}"></div>
             </div>`
