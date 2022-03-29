@@ -89,8 +89,8 @@ section.board{
 .card{
     position: relative;
     /*background-color: pink;*/
-    /*color: #222;*/
-    border-radius: var(--border-radius);
+    color: white;
+    border-radius: 15px;
     margin: 4px 0;
     padding: 4px;
 }
@@ -104,35 +104,22 @@ section.board{
 }
 
 .col3 {
-    background-color: yellow;
+    background-color: goldenrod;
 }
 
 .col4 {
     background-color: limegreen;
 }
 
-/*.board-column:nth-of-type(2) .card{*/
-/*    background-color: var(--status-2);*/
-/*}*/
-
-/*.board-column:nth-of-type(3) .card{*/
-/*    background-color: var(--status-3);*/
-/*}*/
-
-/*.board-column:nth-of-type(4) .card{*/
-/*    background-color: var(--status-4);*/
-/*}*/
-
 .card-remove{
     display: block;
     position: absolute;
     top: 4px;
-    right: 4px;
+    right: 10px;
     font-size: 12px;
     cursor: pointer;
 }
 
 .card-title{
-    padding-right: 16px;
-    color: red
+    padding-right: 10px;
 }
