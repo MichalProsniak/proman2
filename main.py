@@ -46,6 +46,12 @@ def get_statuses():
     return queries.get_all_columns_names()
 
 
+@app.route("/rename-board-by-id/<int:board_id>/<string:board_title>", methods=["POST"])
+@json_response
+def rename_board_by_id(board_id, board_title):
+    queries.rename_board_by_id(board_id, board_title)
+
+
 def main():
     app.run(debug=True)
 

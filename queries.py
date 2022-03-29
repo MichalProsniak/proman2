@@ -1,4 +1,5 @@
 import data_manager
+from psycopg2 import sql
 
 
 def get_card_status(status_id):
@@ -11,10 +12,8 @@ def get_card_status(status_id):
         """
         SELECT * FROM statuses s
         WHERE s.id = %(status_id)s
-        ;
-        """
+        ;"""
         , {"status_id": status_id})
-
     return status
 
 
@@ -26,9 +25,7 @@ def get_boards():
     return data_manager.execute_select(
         """
         SELECT * FROM boards
-        ;
-        """
-    )
+        ;""")
 
 
 def get_cards_for_board(board_id):
@@ -36,8 +33,7 @@ def get_cards_for_board(board_id):
         """
         SELECT * FROM cards
         WHERE cards.board_id = %(board_id)s
-        ;
-        """
+        ;"""
         , {"board_id": board_id})
     return matching_cards
 
@@ -48,6 +44,19 @@ def get_all_columns_names():
         SELECT * 
         FROM statuses
         ORDER BY id
-        ;
-        """
+        ;""")
+
+
+@data_manager.connection_handler
+def rename_board_by_id(cursor, board_id, board_title):
+    cursor.execute(
+        sql.SQL("""
+            UPDATE boards
+            SET title = {board_title}
+            WHERE id = {board_id}
+        """).format(
+            board_id=sql.Literal(board_id),
+            board_title=sql.Literal(board_title)
+        )
     )
+
