@@ -70,6 +70,7 @@ def rename_column_by_id(cursor, column_id, column_title):
     )
 
 
+@data_manager.connection_handler
 def add_board(cursor, new_title):
     query = """
     INSERT INTO boards (title)

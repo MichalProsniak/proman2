@@ -77,7 +77,7 @@ async function addNewBoard (){
     let titleValue = titleID.value
     await dataHandler.addBoard(titleValue)
     clear ()
-    boardsManager.loadBoards()
+    await boardsManager.loadBoards()
     modal.style.display = 'none'
 }
 function clear(){
