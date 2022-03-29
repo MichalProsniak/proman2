@@ -23,6 +23,11 @@ def get_boards():
     Gather all boards
     :return:
     """
+<<<<<<< HEAD
+    # remove this code once you implement the database
+
+=======
+>>>>>>> 9dea9ee5e77d72e2404c6cac0fad91c84db0263f
     return data_manager.execute_select(
         """
         SELECT * FROM boards
@@ -32,6 +37,11 @@ def get_boards():
 
 
 def get_cards_for_board(board_id):
+<<<<<<< HEAD
+    # remove this code once you implement the database
+
+=======
+>>>>>>> 9dea9ee5e77d72e2404c6cac0fad91c84db0263f
     matching_cards = data_manager.execute_select(
         """
         SELECT * FROM cards
