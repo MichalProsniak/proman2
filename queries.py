@@ -61,3 +61,12 @@ def rename_board_by_id(cursor, board_id, board_title):
         )
     )
 
+@data_manager.connection_handler
+def add_board(cursor,new_title):
+    print (new_title)
+    query = """
+    INSERT INTO boards (title)
+    VALUES (%s);"""
+
+    cursor.execute(query, (new_title,))
+

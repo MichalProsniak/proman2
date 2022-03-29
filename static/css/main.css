@@ -123,3 +123,55 @@ section.board{
 .card-title{
     padding-right: 10px;
 }
+
+.modal-overlay{
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content{
+  background-color: #f4f4f4;
+  margin: 20% auto;
+  width: 70%;
+  box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2),0 7px 20px 0 rgba(0,0,0,0.17);
+}
+
+.modal-header h2, .modal-footer h3{
+  margin: 0;
+}
+
+.modal-header{
+  background: grey;
+  padding: 15px;
+  color: #fff;
+}
+
+.modal-body{
+  padding: 10px 20px;
+}
+
+.modal-footer{
+  background: grey;
+  padding: 10px;
+  color: #fff;
+  text-align: center;
+}
+
+.closeBtn{
+  font-size: 30px;
+  color: #fff;
+  float: right;
+}
+
+.closeBtn:hover,.closeBtn:focus{
+  color: #e439ef;
+  text-decoration: none;
+  cursor:  pointer;
+}

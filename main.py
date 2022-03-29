@@ -51,6 +51,11 @@ def get_statuses():
 def rename_board_by_id(board_id, board_title):
     queries.rename_board_by_id(board_id, board_title)
 
+@app.route("/add-board/<string:board_title>", methods=["POST"])
+@json_response
+def new_board(board_title):
+    queries.add_board(board_title)
+
 
 def main():
     app.run(debug=True)
