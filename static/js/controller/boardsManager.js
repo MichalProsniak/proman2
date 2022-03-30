@@ -72,7 +72,10 @@ async function addNewBoard (){
             domManager.addEventListener(
                 `.toggle-board-button[data-board-id="${board.id}"]`,
                 "click",
-                showHideButtonHandler)}}})
+                showHideButtonHandler);
+            domManager.addEventListener(`.board-add[data-board-id="${board.id}"]`, "click", addNewCard);
+            domManager.addEventListener(`.board-delete[data-board-id="${board.id}"]`, "click", deleteBoard);
+        }}})
         }
 
 async function addNewCard(clickEvent) {
