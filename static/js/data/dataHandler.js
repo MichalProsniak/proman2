@@ -44,6 +44,15 @@ export let dataHandler = {
     },
     deleteBoard: async function (boardId){
         await apiPost(`/api/delete-board/${boardId}`)
+    },
+    addNewColumn: async function () {
+        await apiPost(`/api/add-new-column`)
+    },
+    newColumnData: async function () {
+        return apiGet('/api/new-column')
+    },
+    getAllBoardsIds: async function () {
+        return apiGet('/api/all-boards-ids')
     }
 };
 

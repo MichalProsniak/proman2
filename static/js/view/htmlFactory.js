@@ -26,6 +26,7 @@ function boardBuilder(board) {
                     <div class="board-header"><span class="board-title" data-title-id="${board.id}" contenteditable="true">${board.title}</span>
                         <button class="board-add" data-board-id="${board.id}">Add Card</button>
                         <button class="board-delete" data-board-id="${board.id}">Delete</button>
+                        <button class="add-column" data-board-id="${board.id}">Add Column</button>
                         <button class="toggle-board-button" data-board-id="${board.id}">Show cards</button>
                     </div>
                     <div class="board-columns" data-board-id="${board.id}"></div>
@@ -40,7 +41,7 @@ function cardBuilder(card, column) {
             </div>`;
 }
 
-function columnBuilder(column, boardId) {
+export function columnBuilder(column, boardId) {
     return `<div class="board-column" data-column-id="${boardId}${column.id}">
                 <div class="board-column-title" data-column-id="${boardId}${column.id}" data-status-id="${column.id}" contenteditable="true">${column.title}</div>
                 <div class="board-column-content" data-column-id="${boardId}${column.id}"></div>

@@ -17,6 +17,7 @@ def get_card_status(status_id):
         , {"status_id": status_id})
     return status
 
+
 def get_last_id ():
     last_id = data_manager.execute_select(
         """
@@ -197,3 +198,30 @@ def delete_board(cursor, board_id):
             WHERE id = {board_id};
         """).format(board_id=sql.Literal(board_id), )
     )
+
+
+@data_manager.connection_handler
+def add_column(cursor):
+    cursor.execute(
+        sql.SQL("""
+            INSERT INTO statuses (title)
+            VALUES ('new status');
+        """)
+    )
+
+
+def new_column_data():
+    return data_manager.execute_select(
+        """
+        SELECT * FROM statuses
+        ORDER BY id DESC
+        LIMIT 1
+        ;""")
+
+
+def all_boards_ids():
+    return data_manager.execute_select(
+        """
+        SELECT id FROM boards
+        ORDER BY id ASC
+        ;""")

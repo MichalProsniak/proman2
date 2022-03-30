@@ -147,6 +147,24 @@ def delete_specific_board(board_id):
     queries.delete_board(board_id)
 
 
+@app.route("/api/add-new-column", methods=["POST"])
+@json_response
+def add_new_column():
+    queries.add_column()
+
+
+@app.route("/api/new-column")
+@json_response
+def new_column():
+    return queries.new_column_data()
+
+
+@app.route('/api/all-boards-ids')
+@json_response
+def get_all_boards_ids():
+    return queries.all_boards_ids()
+
+
 def main():
     app.run(debug=True)
     # Serving the favicon

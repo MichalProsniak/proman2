@@ -1,5 +1,5 @@
 import {dataHandler} from "../data/dataHandler.js";
-import {htmlFactory, htmlTemplates} from "../view/htmlFactory.js";
+import {htmlFactory, htmlTemplates, columnBuilder} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
 import {cardsManager} from "./cardsManager.js";
 import {changeColumnTitle} from "./cardsManager.js";
@@ -21,6 +21,7 @@ export let boardsManager = {
             );
             domManager.addEventListener(`.board-add[data-board-id="${board.id}"]`, "click", addNewCard);
             domManager.addEventListener(`.board-delete[data-board-id="${board.id}"]`, "click", deleteBoard);
+            domManager.addEventListener(`.add-column[data-board-id="${board.id}"]`, "click", addColumn);
         }
     },
 };
@@ -75,6 +76,7 @@ async function addNewBoard (){
                 showHideButtonHandler);
             domManager.addEventListener(`.board-add[data-board-id="${board.id}"]`, "click", addNewCard);
             domManager.addEventListener(`.board-delete[data-board-id="${board.id}"]`, "click", deleteBoard);
+            domManager.addEventListener(`.add-column[data-board-id="${board.id}"]`, "click", addColumn);
         }}})
         }
 
@@ -102,4 +104,22 @@ async function deleteBoard(clickEvent) {
     await dataHandler.deleteBoard(boardId);
     let board = document.querySelector(`.board-container[data-board-id="${boardId}"]`);
     board.remove();
+}
+
+async function addColumn(clickEvent) {
+    let boardId = clickEvent.target.dataset.boardId;
+    await dataHandler.addNewColumn()
+    let newColumn = await dataHandler.newColumnData()
+    let allBoards = await dataHandler.getAllBoardsIds()
+
+    for (let currentBoardId of allBoards){
+        let button = document.querySelector(`.toggle-board-button[data-board-id="${currentBoardId.id}"]`);
+        if (button.innerText === "Hide cards") {
+            console.log(currentBoardId.id)
+            let newColumnContent = columnBuilder(newColumn[0], boardId)
+            domManager.addChild(`.board-columns[data-board-id="${currentBoardId.id}"]`, newColumnContent);
+            domManager.addEventListener(`.board-column-title[data-column-id="${currentBoardId.id}${newColumn[0].id}"]`, "click", changeColumnTitle)
+        }
+    }
+
 }
