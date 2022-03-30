@@ -21,7 +21,7 @@ export let dataHandler = {
         // creates new board, saves it and calls the callback function with its data
     },
     createNewCard: async function (cardTitle, boardId, statusId) {
-        // creates new card, saves it and calls the callback function with its data
+        return await apiPost(`/api/${boardId}/${statusId}/${cardTitle}`);
     },
     renameBoard: async function(boardId, boardTitle) {
         await apiPost(`/rename-board-by-id/${boardId}/${boardTitle}`)

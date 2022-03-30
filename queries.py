@@ -86,3 +86,23 @@ def delete_specific_card(cursor, card_id):
             WHERE id = {card_id};
         """).format(card_id=sql.Literal(card_id), )
     )
+
+
+@data_manager.connection_handler
+def add_new_card_to_board(cursor, card_title, board_id, status_id, card_number):
+    query = """
+        INSERT INTO cards (board_id, status_id, title, card_order)
+        VALUES (%s, %s, %s, %s);"""
+    cursor.execute(query, (board_id, status_id, card_title, card_number))
+
+
+def get_card_order(board_id, status_id):
+    card_number = data_manager.execute_select(
+        """
+        SELECT max(card_order) FROM cards 
+        WHERE board_id = %(board_id)s 
+        AND status_id = %(status_id)s
+        ;"""
+        , {"board_id": board_id,
+            "status_id": status_id})
+    return card_number

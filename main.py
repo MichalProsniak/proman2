@@ -70,6 +70,15 @@ def delete_card(card_id):
     queries.delete_specific_card(card_id)
 
 
+@app.route("/api/<int:board_id>/<int:status_id>/<string:card_title>", methods=["POST"])
+@json_response
+def add_new_card(card_title, board_id, status_id):
+    card_number = queries.get_card_order(board_id, status_id)
+    print(card_number[0]['max'])
+    new_card_number = int(card_number[0]['max']) + 1
+    queries.add_new_card_to_board(card_title, board_id, status_id, new_card_number)
+
+
 def main():
     app.run(debug=True)
 
