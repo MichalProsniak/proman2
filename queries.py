@@ -90,7 +90,7 @@ def delete_specific_card(cursor, card_id):
     )
 
 
-@database_common.connection_handler
+@data_manager.connection_handler
 def check_if_user_exist(cursor, username):
     query = """
         SELECT name FROM users WHERE name=%s"""
@@ -103,7 +103,7 @@ def check_if_user_exist(cursor, username):
     return exist
 
 
-@database_common.connection_handler
+@data_manager.connection_handler
 def add_new_user_to_db(cursor, username, password):
     query = """
         INSERT INTO users (name, password)
@@ -111,7 +111,7 @@ def add_new_user_to_db(cursor, username, password):
     cursor.execute(query, (username, password))
 
 
-@database_common.connection_handler
+@data_manager.connection_handler
 def username_exists(cursor, username):
     query = """
         SELECT name FROM users """
@@ -120,7 +120,7 @@ def username_exists(cursor, username):
     return username in all_users
 
 
-@database_common.connection_handler
+@data_manager.connection_handler
 def get_password(cursor, username):
     query = """
         SELECT password FROM users
@@ -130,7 +130,7 @@ def get_password(cursor, username):
     return password['password']
 
 
-@database_common.connection_handler
+@data_manager.connection_handler
 def get_user_id(cursor, username):
     query = """
         SELECT id
