@@ -57,6 +57,8 @@ INSERT INTO boards(title) VALUES ('Board 2');
 
 INSERT INTO cards VALUES (nextval('cards_id_seq'), 1, 1, 'new card 1', 1);
 INSERT INTO cards VALUES (nextval('cards_id_seq'), 1, 1, 'new card 2', 2);
+INSERT INTO cards VALUES (nextval('cards_id_seq'), 1, 1, 'new card 3', 4);
+INSERT INTO cards VALUES (nextval('cards_id_seq'), 1, 1, 'new card 4', 3);
 INSERT INTO cards VALUES (nextval('cards_id_seq'), 1, 2, 'in progress card', 1);
 INSERT INTO cards VALUES (nextval('cards_id_seq'), 1, 3, 'planning', 1);
 INSERT INTO cards VALUES (nextval('cards_id_seq'), 1, 4, 'done card 1', 1);
