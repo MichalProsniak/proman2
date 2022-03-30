@@ -106,3 +106,12 @@ def get_card_order(board_id, status_id):
         , {"board_id": board_id,
             "status_id": status_id})
     return card_number
+
+
+def get_all_new_card_data():
+    return data_manager.execute_select(
+        """
+        SELECT * FROM cards
+        ORDER BY id DESC
+        LIMIT 1
+        ;""")

@@ -74,9 +74,18 @@ def delete_card(card_id):
 @json_response
 def add_new_card(card_title, board_id, status_id):
     card_number = queries.get_card_order(board_id, status_id)
-    print(card_number[0]['max'])
-    new_card_number = int(card_number[0]['max']) + 1
+    print(card_number)
+    if card_number[0]['max'] is None:
+        new_card_number = 1
+    else:
+        new_card_number = int(card_number[0]['max']) + 1
     queries.add_new_card_to_board(card_title, board_id, status_id, new_card_number)
+
+
+@app.route("/api/new-card")
+@json_response
+def get_new_card_data():
+    return queries.get_all_new_card_data()
 
 
 def main():

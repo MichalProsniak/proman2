@@ -6,6 +6,7 @@ import {cardsManager} from "./cardsManager.js";
 export let boardsManager = {
     loadBoards: async function () {
         const boards = await dataHandler.getBoards();
+        console.log(boards)
         for (let board of boards) {
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
@@ -23,7 +24,8 @@ export let boardsManager = {
 
 function showHideButtonHandler(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
-    let button = document.getElementsByClassName(`toggle-board-button`)[boardId-1];
+    let button = document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`);
+    console.log(button)
     if (button.innerText === "Show cards") {
         cardsManager.loadCards(boardId);
         button.innerText = "Hide cards";
@@ -104,6 +106,10 @@ function outsideClick(e){
 
 async function addNewCard(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
-    await dataHandler.createNewCard("New card", boardId, 1)
-
+    await dataHandler.createNewCard("New card", boardId, 1);
+    // content = `<div class="card col${column.id}" data-card-id="${card.id}" >${card.title}
+    //             <div class="card-remove" data-remove-card-id="${card.id}">x</div>
+    //         </div>`;
+    let newCardData = await dataHandler.getNewCardData();
+    console.log(newCardData);
 }

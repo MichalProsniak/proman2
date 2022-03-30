@@ -34,6 +34,9 @@ export let dataHandler = {
     },
     addBoard: async function (boardTitle){
         await apiPost(`/add-board/${boardTitle}`)
+    },
+    getNewCardData: async function (){
+        return await apiGet(`/api/new-card`)
     }
 };
 
