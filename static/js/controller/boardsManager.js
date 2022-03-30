@@ -72,17 +72,34 @@ window.addEventListener('click', outsideClick);
 function openModal(){
   modal.style.display = 'block';
   let addBtn = document.getElementById('add_board')
-        addBtn.addEventListener("click", async () => addNewBoard())
+        addBtn.addEventListener("click", async () => await addNewBoard(), foo())
+}
+
+async function foo (){
+    modal.style.display = 'block';
+  let addBtn = document.getElementById('add_board')
+        addBtn.removeEventListener("click", async () => addNewBoard())
 }
 
 async function addNewBoard (){
+    modal.style.display = 'none'
     let titleID = document.getElementById('board')
     let titleValue = titleID.value
     await dataHandler.addBoard(titleValue)
-    clear ()
-    await boardsManager.loadBoards()
-    modal.style.display = 'none'
-}
+        const boards = await dataHandler.getBoards();
+        for (let board of boards) { if (board.title == titleValue){
+            const boardBuilder = htmlFactory(htmlTemplates.board);
+            const content = boardBuilder(board);
+            domManager.addChild("#all-boards", content);
+            domManager.addEventListener(`.board-title[data-title-id="${board.id}"]`, "click", changeBoardTitle)
+            domManager.addEventListener(
+                `.toggle-board-button[data-board-id="${board.id}"]`,
+                "click",
+                showHideButtonHandler)}}
+        }
+        modal.style.display = 'none'
+
+
 function clear(){
     let boards = document.getElementsByClassName("board-container")
     console.log (boards.length)

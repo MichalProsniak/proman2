@@ -74,7 +74,8 @@ def rename_column_by_id(cursor, column_id, column_title):
 def add_board(cursor, new_title):
     query = """
     INSERT INTO boards (title)
-    VALUES (%s);"""
+    VALUES (%s)
+    """
     cursor.execute(query, (new_title,))
 
 

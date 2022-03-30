@@ -33,6 +33,7 @@ export let dataHandler = {
         await apiPost(`/delete-card/${cardId}`)
     },
     addBoard: async function (boardTitle){
+        console.log ('new board')
         await apiPost(`/add-board/${boardTitle}`)
     },
     getNewCardData: async function (){
