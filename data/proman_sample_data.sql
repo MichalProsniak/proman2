@@ -42,6 +42,11 @@ CREATE TABLE cards (
     title       VARCHAR (200)       NOT NULL,
     card_order  INTEGER             NOT NULL
 );
+CREATE TABLE IF NOT EXISTS users (
+    id       SERIAL PRIMARY KEY     NOT NULL,
+    name     VARCHAR(200)           NOT NULL,
+    password VARCHAR(200)        NOT NULL
+);
 
 ---
 --- insert data

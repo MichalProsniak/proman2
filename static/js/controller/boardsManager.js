@@ -8,7 +8,6 @@ import {deleteButtonHandler} from "./cardsManager.js";
 export let boardsManager = {
     loadBoards: async function () {
         const boards = await dataHandler.getBoards();
-        console.log(boards)
         for (let board of boards) {
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
@@ -23,11 +22,11 @@ export let boardsManager = {
         }
     },
 };
+addNewBoard ()
 
 function showHideButtonHandler(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
     let button = document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`);
-    console.log(button)
     if (button.innerText === "Show cards") {
         cardsManager.loadCards(boardId);
         button.innerText = "Hide cards";
@@ -55,41 +54,14 @@ function changeBoardTitle(clickEvent) {
     })
 }
 
-
-// Get modal element
-var modal = document.getElementById('boardMdl');
-// Get open modal button
-var modalBtn = document.getElementById('mdlButton');
-// Get close button
-var closeBtn = document.getElementsByClassName('closeBtn')[0];
-
-// Listen for open click
-modalBtn.addEventListener('click', openModal);
-// Listen for close click
-closeBtn.addEventListener('click', closeModal);
-// Listen for outside click
-window.addEventListener('click', outsideClick);
-
-// Open modal
-function openModal(){
-  modal.style.display = 'block';
-  let addBtn = document.getElementById('add_board')
-        addBtn.addEventListener("click", async () => await addNewBoard(), (foo()))
-}
-
-async function foo (){
-    modal.style.display = 'block';
-  let addBtn = document.getElementById('add_board')
-        await addBtn.removeEventListener("click", async () => addNewBoard())
-}
-
 async function addNewBoard (){
-    modal.style.display = 'none'
-    let titleID = document.getElementById('board')
-    let titleValue = titleID.value
+    let boardBtn = document.getElementById('new-board')
+    boardBtn.addEventListener('click', async function (){
+    let titleValue = "New board"
     await dataHandler.addBoard(titleValue)
+        let lastID = await dataHandler.getMaxId()
         const boards = await dataHandler.getBoards();
-        for (let board of boards) { if (board.title == titleValue){
+        for (let board of boards) { if (board.id == lastID[0].max){
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
             domManager.addChild("#all-boards", content);
@@ -97,30 +69,8 @@ async function addNewBoard (){
             domManager.addEventListener(
                 `.toggle-board-button[data-board-id="${board.id}"]`,
                 "click",
-                showHideButtonHandler)}}
+                showHideButtonHandler)}}})
         }
-        modal.style.display = 'none'
-
-
-function clear(){
-    let boards = document.getElementsByClassName("board-container")
-    console.log (boards.length)
-    while (boards.length>0){
-        boards[0].remove()
-    }
-}
-
-// Close modal
-function closeModal(){
-  modal.style.display = 'none';
-}
-
-// Click outside and close
-function outsideClick(e){
-  if(e.target == modal){
-    modal.style.display = 'none';
-  }
-}
 
 
 async function addNewCard(clickEvent) {

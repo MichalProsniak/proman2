@@ -30,7 +30,6 @@ function boardBuilder(board) {
                         <button class="toggle-board-button" data-board-id="${board.id}">Show cards</button>
                     </div>
                     <div class="board-columns" data-board-id="${board.id}"></div>
-                   <button id="button${board.id}", style="margin-left: 700px">New column</button>
                 </section>
             </div>`
 

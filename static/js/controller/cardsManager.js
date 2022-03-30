@@ -56,3 +56,12 @@ export function changeColumnTitle(clickEvent) {
         }
     })
 }
+
+// async function newColumn (board_id){
+//     let clmButton = document.getElementById(`clmbutton${board.id}`)
+//     document.addEventListener("click", addColumn())
+// }
+//
+// function addColumn (board_id){
+//
+// }
