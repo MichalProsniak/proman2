@@ -72,13 +72,13 @@ window.addEventListener('click', outsideClick);
 function openModal(){
   modal.style.display = 'block';
   let addBtn = document.getElementById('add_board')
-        addBtn.addEventListener("mouseenter", async () => await addNewBoard(), foo())
+        addBtn.addEventListener("click", async () => await addNewBoard(), (foo()))
 }
 
 async function foo (){
     modal.style.display = 'block';
   let addBtn = document.getElementById('add_board')
-        addBtn.removeEventListener("mouseenter", async () => addNewBoard())
+        await addBtn.removeEventListener("click", async () => addNewBoard())
 }
 
 async function addNewBoard (){
