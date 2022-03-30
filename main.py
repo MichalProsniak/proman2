@@ -8,7 +8,7 @@ import data_manager
 mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
 load_dotenv()
-
+app.secret_key = "qwerty"
 
 @app.route("/")
 def index():

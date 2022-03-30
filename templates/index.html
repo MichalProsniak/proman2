@@ -15,6 +15,16 @@
         <script type="module" src="{{ url_for('static', filename='js/main.js') }}" defer></script>
     </head>
     <body>
+        <nav class="navbar">
+            <div class="navbar-options">
+                {% if "username" in session %}
+                <li><a href="/logout"><button TYPE="button">Logout</button></a></li>
+                {% else %}
+                <li><a href="/registration"><button TYPE="button">Registration</button></a></li>
+                <li><a href="/login"><button TYPE="button">Login</button></a></li>
+                {% endif %}
+            </div>
+        </nav>
         <h1>ProMan</h1>
         <div id="root"></div>
         <div id="all-boards"></div>

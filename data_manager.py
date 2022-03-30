@@ -2,6 +2,7 @@ import os
 import psycopg2
 import psycopg2.extras
 import queries
+import bcrypt
 
 
 def establish_connection(connection_data=None):
