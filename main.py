@@ -88,6 +88,13 @@ def get_new_card_data():
     return queries.get_all_new_card_data()
 
 
+@app.route("/api/delete-board/<int:board_id>", methods=["POST"])
+@json_response
+def delete_specific_board(board_id):
+    queries.delete_all_cards_from_board(board_id)
+    queries.delete_board(board_id)
+
+
 def main():
     app.run(debug=True)
 

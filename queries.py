@@ -116,3 +116,23 @@ def get_all_new_card_data():
         ORDER BY id DESC
         LIMIT 1
         ;""")
+
+
+@data_manager.connection_handler
+def delete_all_cards_from_board(cursor, board_id):
+    cursor.execute(
+        sql.SQL("""
+            DELETE FROM cards 
+            WHERE board_id = {board_id};
+        """).format(board_id=sql.Literal(board_id), )
+    )
+
+
+@data_manager.connection_handler
+def delete_board(cursor, board_id):
+    cursor.execute(
+        sql.SQL("""
+            DELETE FROM boards 
+            WHERE id = {board_id};
+        """).format(board_id=sql.Literal(board_id), )
+    )

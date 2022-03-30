@@ -20,6 +20,7 @@ export let boardsManager = {
                 showHideButtonHandler
             );
             domManager.addEventListener(`.board-add[data-board-id="${board.id}"]`, "click", addNewCard);
+            domManager.addEventListener(`.board-delete[data-board-id="${board.id}"]`, "click", deleteBoard);
         }
     },
 };
@@ -97,8 +98,10 @@ async function addNewBoard (){
             domManager.addEventListener(
                 `.toggle-board-button[data-board-id="${board.id}"]`,
                 "click",
-                showHideButtonHandler)}}
-        }
+                showHideButtonHandler)}
+            domManager.addEventListener(`.board-add[data-board-id="${board.id}"]`, "click", addNewCard);
+            domManager.addEventListener(`.board-delete[data-board-id="${board.id}"]`, "click", deleteBoard);
+        }}
         modal.style.display = 'none'
 
 
@@ -140,4 +143,11 @@ async function addNewCard(clickEvent) {
             deleteButtonHandler
         );
     }
+}
+
+async function deleteBoard(clickEvent) {
+    let boardId = clickEvent.target.dataset.boardId;
+    await dataHandler.deleteBoard(boardId);
+    let board = document.querySelector(`.board-container[data-board-id="${boardId}"]`);
+    board.remove();
 }
