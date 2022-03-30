@@ -28,7 +28,7 @@ export let cardsManager = {
     },
 };
 
-async function deleteButtonHandler(clickEvent) {
+export async function deleteButtonHandler(clickEvent) {
     const cardId = clickEvent.target.dataset.removeCardId
     let allCards = document.getElementsByClassName("card")
     for (let card of allCards) {
@@ -41,7 +41,7 @@ async function deleteButtonHandler(clickEvent) {
 }
 
 
-function changeColumnTitle(clickEvent) {
+export function changeColumnTitle(clickEvent) {
     const columnId = clickEvent.target.attributes['data-column-id'].nodeValue[0];
 
     let element = document.querySelector(`.board-column-title[data-column-id='${columnId}']`)
