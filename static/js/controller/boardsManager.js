@@ -77,16 +77,15 @@ async function foo (){
     modal.style.display = 'block';
   let addBtn = document.getElementById('add_board')
         addBtn.removeEventListener("click", async () => addNewBoard())
-    console.log ('deleted')
 }
 
 async function addNewBoard (){
+    modal.style.display = 'none'
     let titleID = document.getElementById('board')
     let titleValue = titleID.value
     await dataHandler.addBoard(titleValue)
         const boards = await dataHandler.getBoards();
         for (let board of boards) { if (board.title == titleValue){
-            console.log ('new board')
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
             domManager.addChild("#all-boards", content);
