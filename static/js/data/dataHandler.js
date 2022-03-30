@@ -39,6 +39,9 @@ export let dataHandler = {
     getNewCardData: async function (){
         return await apiGet(`/api/new-card`)
     },
+    getMaxId: async function (){
+        return await apiGet(`/api/max-id`)
+    },
     deleteBoard: async function (boardId){
         await apiPost(`/api/delete-board/${boardId}`)
     }

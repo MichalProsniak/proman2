@@ -46,6 +46,12 @@ def get_statuses():
     """
     return queries.get_all_columns_names()
 
+@app.route("/api/max-id")
+@json_response
+def get_max_id():
+    return queries.get_last_id()
+
+
 
 @app.route("/rename-board-by-id/<int:board_id>/<string:board_title>", methods=["POST"])
 @json_response

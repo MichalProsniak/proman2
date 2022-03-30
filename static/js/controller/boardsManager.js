@@ -24,6 +24,7 @@ export let boardsManager = {
         }
     },
 };
+addNewBoard ()
 
 function showHideButtonHandler(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
@@ -56,40 +57,14 @@ function changeBoardTitle(clickEvent) {
     })
 }
 
-// Get modal element
-var modal = document.getElementById('boardMdl');
-// Get open modal button
-var modalBtn = document.getElementById('mdlButton');
-// Get close button
-var closeBtn = document.getElementsByClassName('closeBtn')[0];
-
-// Listen for open click
-modalBtn.addEventListener('click', openModal);
-// Listen for close click
-closeBtn.addEventListener('click', closeModal);
-// Listen for outside click
-window.addEventListener('click', outsideClick);
-
-// Open modal
-function openModal(){
-  modal.style.display = 'block';
-  let addBtn = document.getElementById('add_board')
-        addBtn.addEventListener("click", async () => await addNewBoard(), foo())
-}
-
-async function foo (){
-    modal.style.display = 'block';
-  let addBtn = document.getElementById('add_board')
-        addBtn.removeEventListener("click", async () => addNewBoard())
-}
-
 async function addNewBoard (){
-    modal.style.display = 'none'
-    let titleID = document.getElementById('board')
-    let titleValue = titleID.value
+    let boardBtn = document.getElementById('new-board')
+    boardBtn.addEventListener('click', async function (){
+    let titleValue = "New board"
     await dataHandler.addBoard(titleValue)
+        let lastID = await dataHandler.getMaxId()
         const boards = await dataHandler.getBoards();
-        for (let board of boards) { if (board.title == titleValue){
+        for (let board of boards) { if (board.id == lastID[0].max){
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
             domManager.addChild("#all-boards", content);
@@ -97,31 +72,8 @@ async function addNewBoard (){
             domManager.addEventListener(
                 `.toggle-board-button[data-board-id="${board.id}"]`,
                 "click",
-                showHideButtonHandler)}
-            domManager.addEventListener(`.board-add[data-board-id="${board.id}"]`, "click", addNewCard);
-            domManager.addEventListener(`.board-delete[data-board-id="${board.id}"]`, "click", deleteBoard);
-        }}
-        modal.style.display = 'none'
-
-function clear(){
-    let boards = document.getElementsByClassName("board-container")
-    console.log (boards.length)
-    while (boards.length>0){
-        boards[0].remove()
-    }
-}
-
-// Close modal
-function closeModal(){
-  modal.style.display = 'none';
-}
-
-// Click outside and close
-function outsideClick(e){
-  if(e.target == modal){
-    modal.style.display = 'none';
-  }
-}
+                showHideButtonHandler)}}})
+        }
 
 async function addNewCard(clickEvent) {
     let boardId = clickEvent.target.dataset.boardId;
