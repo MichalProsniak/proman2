@@ -19,9 +19,11 @@
             <div class="navbar-options">
                 {% if "username" in session %}
                 <li><a href="/logout"><button TYPE="button">Logout</button></a></li>
+                <p>You are logged in as <strong>{{ session['username'] }}</strong>. Now, you can see all public and private boards!</p>
                 {% else %}
                 <li><a href="/registration"><button TYPE="button">Registration</button></a></li>
                 <li><a href="/login"><button TYPE="button">Login</button></a></li>
+                <p>You are not logged in. Now, you can see only public boards!</p>
                 {% endif %}
             </div>
         </nav>

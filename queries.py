@@ -17,6 +17,7 @@ def get_card_status(status_id):
         , {"status_id": status_id})
     return status
 
+
 def get_last_id ():
     last_id = data_manager.execute_select(
         """

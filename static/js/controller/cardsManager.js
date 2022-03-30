@@ -43,7 +43,6 @@ export async function deleteButtonHandler(clickEvent) {
 export function changeColumnTitle(clickEvent) {
     let statusId = clickEvent.target.dataset.statusId;
     let element = document.querySelector(`.board-column-title[data-status-id='${statusId}']`)
-    let oldTitle = element.innerText
     element.addEventListener('focusout', async () => {
         let title = element.innerText
         if (title === '') {
@@ -51,7 +50,6 @@ export function changeColumnTitle(clickEvent) {
         }
         await dataHandler.renameColumn(statusId, title)
         let all_columns = document.querySelectorAll(`.board-column-title[data-status-id="${statusId}"]`);
-        console.log(all_columns)
         for (let column of all_columns) {
             column.innerText = title
         }

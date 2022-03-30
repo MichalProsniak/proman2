@@ -7,8 +7,9 @@ import data_manager
 
 mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
-load_dotenv()
 app.secret_key = "qwerty"
+load_dotenv()
+
 
 @app.route("/")
 def index():
@@ -46,11 +47,11 @@ def get_statuses():
     """
     return queries.get_all_columns_names()
 
+
 @app.route("/api/max-id")
 @json_response
 def get_max_id():
     return queries.get_last_id()
-
 
 
 @app.route("/rename-board-by-id/<int:board_id>/<string:board_title>", methods=["POST"])

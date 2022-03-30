@@ -175,3 +175,16 @@ section.board{
   text-decoration: none;
   cursor:  pointer;
 }
+
+#login_page{
+    text-align: center;
+}
+
+#registration_page{
+    text-align: center;
+}
+
+.navbar{
+    text-align: center;
+    display: inline-block;
+}
