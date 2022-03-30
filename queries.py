@@ -75,7 +75,8 @@ def rename_column_by_id(cursor, column_id, column_title):
 def add_board(cursor, new_title):
     query = """
     INSERT INTO boards (title)
-    VALUES (%s);"""
+    VALUES (%s)
+    """
     cursor.execute(query, (new_title,))
 
 
@@ -138,3 +139,52 @@ def get_user_id(cursor, username):
     cursor.execute(query, (username,))
     user_id = cursor.fetchone()
     return user_id['id']
+
+
+@data_manager.connection_handler
+def add_new_card_to_board(cursor, card_title, board_id, status_id, card_number):
+    query = """
+        INSERT INTO cards (board_id, status_id, title, card_order)
+        VALUES (%s, %s, %s, %s);"""
+    cursor.execute(query, (board_id, status_id, card_title, card_number))
+
+
+def get_card_order(board_id, status_id):
+    card_number = data_manager.execute_select(
+        """
+        SELECT max(card_order) FROM cards 
+        WHERE board_id = %(board_id)s 
+        AND status_id = %(status_id)s
+        ;"""
+        , {"board_id": board_id,
+            "status_id": status_id})
+    return card_number
+
+
+def get_all_new_card_data():
+    return data_manager.execute_select(
+        """
+        SELECT * FROM cards
+        ORDER BY id DESC
+        LIMIT 1
+        ;""")
+
+
+@data_manager.connection_handler
+def delete_all_cards_from_board(cursor, board_id):
+    cursor.execute(
+        sql.SQL("""
+            DELETE FROM cards 
+            WHERE board_id = {board_id};
+        """).format(board_id=sql.Literal(board_id), )
+    )
+
+
+@data_manager.connection_handler
+def delete_board(cursor, board_id):
+    cursor.execute(
+        sql.SQL("""
+            DELETE FROM boards 
+            WHERE id = {board_id};
+        """).format(board_id=sql.Literal(board_id), )
+    )
