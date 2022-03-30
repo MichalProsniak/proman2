@@ -108,18 +108,32 @@ async function deleteBoard(clickEvent) {
 }
 
 async function addColumn(clickEvent) {
-    let boardId = clickEvent.target.dataset.boardId;
-    await dataHandler.addNewColumn()
-    let newColumn = await dataHandler.newColumnData()
-    let allBoards = await dataHandler.getAllBoardsIds()
+    let numberOfStatuses = await dataHandler.getStatuses()
+    if (numberOfStatuses.length <= 6) {
+        console.log(numberOfStatuses.length)
+        if (numberOfStatuses.length === 6) {
+            let allButtons = document.getElementsByClassName(`add-column`);
+            for (let button of allButtons) {
+                button.innerText = "Can't add new column"
+            }
+        }
+        await dataHandler.addNewColumn()
+        let newColumn = await dataHandler.newColumnData()
+        let allBoards = await dataHandler.getAllBoardsIds()
 
-    for (let currentBoardId of allBoards){
-        let button = document.querySelector(`.toggle-board-button[data-board-id="${currentBoardId.id}"]`);
-        if (button.innerText === "Hide cards") {
-            let newId = currentBoardId.id;
-            let newColumnContent = columnBuilder(newColumn[0], newId)
-            domManager.addChild(`.board-columns[data-board-id="${currentBoardId.id}"]`, newColumnContent);
-            domManager.addEventListener(`.board-column-title[data-column-id="${newId}${newColumn[0].id}"]`, "click", changeColumnTitle)
+        for (let currentBoardId of allBoards) {
+            let button = document.querySelector(`.toggle-board-button[data-board-id="${currentBoardId.id}"]`);
+            if (button.innerText === "Hide cards") {
+                let newId = currentBoardId.id;
+                let newColumnContent = columnBuilder(newColumn[0], newId)
+                domManager.addChild(`.board-columns[data-board-id="${currentBoardId.id}"]`, newColumnContent);
+                domManager.addEventListener(`.board-column-title[data-column-id="${newId}${newColumn[0].id}"]`, "click", changeColumnTitle)
+            }
+        }
+    } else {
+        let allButtons = document.getElementsByClassName(`add-column`);
+        for (let button of allButtons) {
+            button.innerText = "Can't add new column"
         }
     }
 
