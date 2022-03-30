@@ -53,10 +53,10 @@ def rename_board_by_id(board_id, board_title):
     queries.rename_board_by_id(board_id, board_title)
 
 
-@app.route("/rename-column-by-id/<int:column_id>/<string:column_title>", methods=["POST"])
+@app.route("/rename-column-by-id/<int:status_id>/<string:column_title>", methods=["POST"])
 @json_response
-def rename_column_by_id(column_id, column_title):
-    queries.rename_column_by_id(column_id, column_title)
+def rename_column_by_id(status_id, column_title):
+    queries.rename_column_by_id(status_id, column_title)
 
 
 @app.route("/add-board/<string:board_title>", methods=["POST"])

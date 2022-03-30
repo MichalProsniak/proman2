@@ -133,7 +133,7 @@ async function addNewCard(clickEvent) {
                     <div class="card-remove" data-remove-card-id="${newCardData[0].id}">x</div>
                 </div>`;
         domManager.addChild(`.board-column-content[data-column-id="${newCardData[0].board_id}${newCardData[0].status_id}"]`, content);
-        domManager.addEventListener(`.board-column[data-column-id="${newCardData[0].board_id}${newCardData[0].status_id}"]`, "click", changeColumnTitle)
+        domManager.addEventListener(`.board-column-title[data-column-id="${newCardData[0].board_id}${newCardData[0].status_id}"]`, "click", changeColumnTitle)
         domManager.addEventListener(
             `.card-remove[data-remove-card-id="${newCardData[0].id}"]`,
             "click",

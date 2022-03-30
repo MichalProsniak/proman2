@@ -15,7 +15,7 @@ export let cardsManager = {
                     const cardBuilder = htmlFactory(htmlTemplates.card);
                     const content = cardBuilder(card, column);
                     domManager.addChild(`.board-column-content[data-column-id="${boardId}${column.id}"]`, content);
-                    domManager.addEventListener(`.board-column-content[data-column-id="${boardId}${column.id}"]`, "click", changeColumnTitle)
+                    domManager.addEventListener(`.board-column-title[data-column-id="${boardId}${column.id}"]`, "click", changeColumnTitle)
                     domManager.addEventListener(
                         `.card-remove[data-remove-card-id="${card.id}"]`,
                         "click",
@@ -40,17 +40,19 @@ export async function deleteButtonHandler(clickEvent) {
 }
 
 export function changeColumnTitle(clickEvent) {
-    const columnId = clickEvent.target.attributes['data-column-id'].nodeValue[0];
-
-    let element = document.querySelector(`.board-column-title[data-column-id='${columnId}']`)
+    let statusId = clickEvent.target.dataset.statusId;
+    let element = document.querySelector(`.board-column-title[data-status-id='${statusId}']`)
     let oldTitle = element.innerText
     element.addEventListener('focusout', async () => {
         let title = element.innerText
         if (title === '') {
-            element.innerText = 'no name'
-            await dataHandler.renameColumn(columnId, 'no name')
-        } else if (title !== oldTitle || title === oldTitle) {
-            await dataHandler.renameColumn(columnId, title)
+            title = 'no name'
+        }
+        await dataHandler.renameColumn(statusId, title)
+        let all_columns = document.querySelectorAll(`.board-column-title[data-status-id="${statusId}"]`);
+        console.log(all_columns)
+        for (let column of all_columns) {
+            column.innerText = title
         }
     })
 }
