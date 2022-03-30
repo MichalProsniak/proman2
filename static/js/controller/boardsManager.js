@@ -25,6 +25,7 @@ export let boardsManager = {
         }
     },
 };
+
 addNewBoard ()
 
 function showHideButtonHandler(clickEvent) {
@@ -115,10 +116,10 @@ async function addColumn(clickEvent) {
     for (let currentBoardId of allBoards){
         let button = document.querySelector(`.toggle-board-button[data-board-id="${currentBoardId.id}"]`);
         if (button.innerText === "Hide cards") {
-            console.log(currentBoardId.id)
-            let newColumnContent = columnBuilder(newColumn[0], boardId)
+            let newId = currentBoardId.id;
+            let newColumnContent = columnBuilder(newColumn[0], newId)
             domManager.addChild(`.board-columns[data-board-id="${currentBoardId.id}"]`, newColumnContent);
-            domManager.addEventListener(`.board-column-title[data-column-id="${currentBoardId.id}${newColumn[0].id}"]`, "click", changeColumnTitle)
+            domManager.addEventListener(`.board-column-title[data-column-id="${newId}${newColumn[0].id}"]`, "click", changeColumnTitle)
         }
     }
 

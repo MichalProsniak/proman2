@@ -11,12 +11,12 @@ export let cardsManager = {
             const columnBuilder = htmlFactory(htmlTemplates.status)
             const columnsContent = columnBuilder(column, boardId)
             domManager.addChild(`.board-columns[data-board-id="${boardId}"]`, columnsContent);
+            domManager.addEventListener(`.board-column-title[data-column-id="${boardId}${column.id}"]`, "click", changeColumnTitle)
             for (let card of cards) {
                 if (card.status_id === column.id) {
                     const cardBuilder = htmlFactory(htmlTemplates.card);
                     const content = cardBuilder(card, column);
                     domManager.addChild(`.board-column-content[data-column-id="${boardId}${column.id}"]`, content);
-                    domManager.addEventListener(`.board-column-title[data-column-id="${boardId}${column.id}"]`, "click", changeColumnTitle)
                     domManager.addEventListener(
                         `.card-remove[data-remove-card-id="${card.id}"]`,
                         "click",
@@ -42,20 +42,21 @@ export async function deleteButtonHandler(clickEvent) {
 
 export function changeColumnTitle(clickEvent) {
     let statusId = clickEvent.target.dataset.statusId;
-    let element = document.querySelector(`.board-column-title[data-status-id='${statusId}']`)
-    element.addEventListener('focusout', async () => {
-        let title = element.innerText
-        if (title === '') {
-            title = 'no name'
-        }
-        await dataHandler.renameColumn(statusId, title)
-        let all_columns = document.querySelectorAll(`.board-column-title[data-status-id="${statusId}"]`);
-        for (let column of all_columns) {
-            column.innerText = title
-        }
-    })
+    let elements = document.querySelectorAll(`.board-column-title[data-status-id='${statusId}']`)
+    for (let element of elements) {
+        element.addEventListener('focusout', async () => {
+            let title = element.innerText
+            if (title === '') {
+                title = 'no name'
+            }
+            await dataHandler.renameColumn(statusId, title)
+            let all_columns = document.querySelectorAll(`.board-column-title[data-status-id="${statusId}"]`);
+            for (let column of all_columns) {
+                column.innerText = title
+            }
+        })
+    }
 }
-
 // async function newColumn (board_id){
 //     let clmButton = document.getElementById(`clmbutton${board.id}`)
 //     document.addEventListener("click", addColumn())
