@@ -1,5 +1,6 @@
 import data_manager
 from psycopg2 import sql
+import main
 
 
 def get_card_status(status_id):
@@ -86,3 +87,54 @@ def delete_specific_card(cursor, card_id):
             WHERE id = {card_id};
         """).format(card_id=sql.Literal(card_id), )
     )
+
+
+@database_common.connection_handler
+def check_if_user_exist(cursor, username):
+    query = """
+        SELECT name FROM users WHERE name=%s"""
+    cursor.execute(query, (username,))
+    exist = cursor.fetchall()
+    if len(exist) > 0:
+        exist = True
+    else:
+        exist = False
+    return exist
+
+
+@database_common.connection_handler
+def add_new_user_to_db(cursor, username, password):
+    query = """
+        INSERT INTO users (name, password)
+        VALUES (%s, %s)"""
+    cursor.execute(query, (username, password))
+
+
+@database_common.connection_handler
+def username_exists(cursor, username):
+    query = """
+        SELECT name FROM users """
+    cursor.execute(query)
+    all_users = [user['name'] for user in cursor.fetchall()]
+    return username in all_users
+
+
+@database_common.connection_handler
+def get_password(cursor, username):
+    query = """
+        SELECT password FROM users
+        WHERE name = '%s'""" % (username)
+    cursor.execute(query)
+    password = cursor.fetchone()
+    return password['password']
+
+
+@database_common.connection_handler
+def get_user_id(cursor, username):
+    query = """
+        SELECT id
+        FROM users    
+        WHERE name=%s"""
+    cursor.execute(query, (username,))
+    user_id = cursor.fetchone()
+    return user_id['id']

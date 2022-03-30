@@ -1,8 +1,9 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request, session, redirect
 from dotenv import load_dotenv
 from util import json_response
 import mimetypes
 import queries
+import data_manager
 
 mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
@@ -70,9 +71,53 @@ def delete_card(card_id):
     queries.delete_specific_card(card_id)
 
 
+@app.route("/registration", methods=['GET', 'POST'])
+def registration():
+    alert = data_manager.is_logged(session)
+    if alert is False:
+        return redirect('/')
+    if request.method == 'GET':
+        return render_template('registration.html', alert=alert)
+    username = request.form['username']
+    password = request.form['password']
+    username_exists = data_manager.user_registration(username, password)
+    if not username_exists:
+        return redirect('/')
+    else:
+        return render_template('registration.html', error='Username already exists!', alert=alert)
+
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    alert = data_manager.is_logged(session)
+    if alert is False:
+        return redirect('/')
+    if request.method == 'GET':
+        return render_template('login.html', alert=alert)
+    username = request.form['username']
+    plain_text_password = request.form['password']
+    if queries.username_exists(username):
+        hashed_password = queries.get_password(username)
+        if data_manager.verify_password(plain_text_password, hashed_password):
+            session['username'] = username
+            session['user_id'] = queries.get_user_id(username)
+            return redirect('/')
+    error_message = 'Invalid username or password!'
+    return render_template('login.html', error_message=error_message, alert=alert)
+
+
+@app.route('/logout')
+def logout():
+    alert = data_manager.is_logged(session)
+    if alert is True:
+        return redirect('/login')
+    session.pop('username', None)
+    session.pop('user_id', None)
+    return redirect('/')
+
+
 def main():
     app.run(debug=True)
-
     # Serving the favicon
     with app.app_context():
         app.add_url_rule('/favicon.ico', redirect_to=url_for('static', filename='favicon/favicon.ico'))
