@@ -40,7 +40,6 @@ export async function deleteButtonHandler(clickEvent) {
     await dataHandler.deleteSpecificCard(cardId)
 }
 
-
 export function changeColumnTitle(clickEvent) {
     const columnId = clickEvent.target.attributes['data-column-id'].nodeValue[0];
 

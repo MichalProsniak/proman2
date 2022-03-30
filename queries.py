@@ -1,5 +1,6 @@
 import data_manager
 from psycopg2 import sql
+import main
 
 
 def get_card_status(status_id):
@@ -99,6 +100,57 @@ def delete_specific_card(cursor, card_id):
 
 
 @data_manager.connection_handler
+def check_if_user_exist(cursor, username):
+    query = """
+        SELECT name FROM users WHERE name=%s"""
+    cursor.execute(query, (username,))
+    exist = cursor.fetchall()
+    if len(exist) > 0:
+        exist = True
+    else:
+        exist = False
+    return exist
+
+
+@data_manager.connection_handler
+def add_new_user_to_db(cursor, username, password):
+    query = """
+        INSERT INTO users (name, password)
+        VALUES (%s, %s)"""
+    cursor.execute(query, (username, password))
+
+
+@data_manager.connection_handler
+def username_exists(cursor, username):
+    query = """
+        SELECT name FROM users """
+    cursor.execute(query)
+    all_users = [user['name'] for user in cursor.fetchall()]
+    return username in all_users
+
+
+@data_manager.connection_handler
+def get_password(cursor, username):
+    query = """
+        SELECT password FROM users
+        WHERE name = '%s'""" % (username)
+    cursor.execute(query)
+    password = cursor.fetchone()
+    return password['password']
+
+
+@data_manager.connection_handler
+def get_user_id(cursor, username):
+    query = """
+        SELECT id
+        FROM users    
+        WHERE name=%s"""
+    cursor.execute(query, (username,))
+    user_id = cursor.fetchone()
+    return user_id['id']
+
+
+@data_manager.connection_handler
 def add_new_card_to_board(cursor, card_title, board_id, status_id, card_number):
     query = """
         INSERT INTO cards (board_id, status_id, title, card_order)
@@ -125,3 +177,23 @@ def get_all_new_card_data():
         ORDER BY id DESC
         LIMIT 1
         ;""")
+
+
+@data_manager.connection_handler
+def delete_all_cards_from_board(cursor, board_id):
+    cursor.execute(
+        sql.SQL("""
+            DELETE FROM cards 
+            WHERE board_id = {board_id};
+        """).format(board_id=sql.Literal(board_id), )
+    )
+
+
+@data_manager.connection_handler
+def delete_board(cursor, board_id):
+    cursor.execute(
+        sql.SQL("""
+            DELETE FROM boards 
+            WHERE id = {board_id};
+        """).format(board_id=sql.Literal(board_id), )
+    )

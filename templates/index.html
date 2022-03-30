@@ -4,17 +4,27 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
         <title>ProMan</title>
 
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}">
         <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon/favicon-32x32.png') }}">
         <link rel="icon" type="image/png" sizes="96x96" href="{{ url_for('static', filename='favicon/favicon-96x96.png') }}">
         <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon/favicon-16x16.png') }}">
-
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
         <script type="module" src="{{ url_for('static', filename='js/main.js') }}" defer></script>
     </head>
     <body>
+        <nav class="navbar">
+            <div class="navbar-options">
+                {% if "username" in session %}
+                <li><a href="/logout"><button TYPE="button">Logout</button></a></li>
+                {% else %}
+                <li><a href="/registration"><button TYPE="button">Registration</button></a></li>
+                <li><a href="/login"><button TYPE="button">Login</button></a></li>
+                {% endif %}
+            </div>
+        </nav>
         <h1>ProMan</h1>
         <div id="root"></div>
         <div id="all-boards"></div>

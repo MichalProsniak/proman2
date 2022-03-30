@@ -41,6 +41,9 @@ export let dataHandler = {
     },
     getMaxId: async function (){
         return await apiGet(`/api/max-id`)
+    },
+    deleteBoard: async function (boardId){
+        await apiPost(`/api/delete-board/${boardId}`)
     }
 };
 

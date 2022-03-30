@@ -1,6 +1,8 @@
 import os
 import psycopg2
 import psycopg2.extras
+import queries
+import bcrypt
 
 
 def establish_connection(connection_data=None):
@@ -96,3 +98,30 @@ def connection_handler(function):
         connection.close()
         return ret_value
     return wrapper
+
+
+def is_logged(session):
+    alert = True
+    if 'username' in session:
+        alert = False
+    return alert
+
+
+def user_registration(username, password):
+    password = hash_password(password)
+    username_exists = queries.check_if_user_exist(username)
+    if not username_exists:
+        queries.add_new_user_to_db(username, password)
+        return username_exists
+    else:
+        return username_exists
+
+
+def hash_password(plain_text_password):
+    hashed_bytes = bcrypt.hashpw(plain_text_password.encode('utf-8'), bcrypt.gensalt())
+    return hashed_bytes.decode('utf-8')
+
+
+def verify_password(plain_text_password, hashed_password):
+    hashed_bytes_password = hashed_password.encode('utf-8')
+    return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_bytes_password)

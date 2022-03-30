@@ -8,6 +8,7 @@ import {deleteButtonHandler} from "./cardsManager.js";
 export let boardsManager = {
     loadBoards: async function () {
         const boards = await dataHandler.getBoards();
+        console.log(boards)
         for (let board of boards) {
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
@@ -19,6 +20,7 @@ export let boardsManager = {
                 showHideButtonHandler
             );
             domManager.addEventListener(`.board-add[data-board-id="${board.id}"]`, "click", addNewCard);
+            domManager.addEventListener(`.board-delete[data-board-id="${board.id}"]`, "click", deleteBoard);
         }
     },
 };
@@ -27,6 +29,7 @@ addNewBoard ()
 function showHideButtonHandler(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
     let button = document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`);
+    console.log(button)
     if (button.innerText === "Show cards") {
         cardsManager.loadCards(boardId);
         button.innerText = "Hide cards";
@@ -72,7 +75,6 @@ async function addNewBoard (){
                 showHideButtonHandler)}}})
         }
 
-
 async function addNewCard(clickEvent) {
     let boardId = clickEvent.target.dataset.boardId;
     let button = document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`);
@@ -90,4 +92,11 @@ async function addNewCard(clickEvent) {
             deleteButtonHandler
         );
     }
+}
+
+async function deleteBoard(clickEvent) {
+    let boardId = clickEvent.target.dataset.boardId;
+    await dataHandler.deleteBoard(boardId);
+    let board = document.querySelector(`.board-container[data-board-id="${boardId}"]`);
+    board.remove();
 }

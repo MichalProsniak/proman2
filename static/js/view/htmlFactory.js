@@ -14,19 +14,18 @@ export function htmlFactory(template) {
     if (builderFunctions.hasOwnProperty(template)) {
         return builderFunctions[template];
     }
-
     console.error("Undefined template: " + template);
-
     return () => {
         return "";
     };
 }
 
 function boardBuilder(board) {
-    return `<div class="board-container">
+    return `<div class="board-container" data-board-id="${board.id}">
                 <section class="board" data-board-id="${board.id}">
                     <div class="board-header"><span class="board-title" data-title-id="${board.id}" contenteditable="true">${board.title}</span>
                         <button class="board-add" data-board-id="${board.id}">Add Card</button>
+                        <button class="board-delete" data-board-id="${board.id}">Delete</button>
                         <button class="toggle-board-button" data-board-id="${board.id}">Show cards</button>
                     </div>
                     <div class="board-columns" data-board-id="${board.id}"></div>
@@ -40,7 +39,6 @@ function cardBuilder(card, column) {
                 <div class="card-remove" data-remove-card-id="${card.id}">x</div>
             </div>`;
 }
-
 
 function columnBuilder(column, boardId) {
     return `<div class="board-column" data-column-id="${boardId}${column.id}">
