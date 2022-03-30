@@ -16,6 +16,7 @@ export let boardsManager = {
                 "click",
                 showHideButtonHandler
             );
+            domManager.addEventListener(`.board-add[data-board-id="${board.id}"]`, "click", addNewCard);
         }
     },
 };
@@ -116,4 +117,11 @@ function outsideClick(e){
   if(e.target == modal){
     modal.style.display = 'none';
   }
+}
+
+
+async function addNewCard(clickEvent) {
+    const boardId = clickEvent.target.dataset.boardId;
+    await dataHandler.createNewCard("New card", boardId, 1)
+
 }
