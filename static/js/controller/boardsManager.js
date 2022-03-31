@@ -139,3 +139,7 @@ async function addColumn(clickEvent) {
     }
 
 }
+
+export function removeAllBoards() {
+    document.querySelectorAll('.board-container').forEach(e => e.remove())
+}
