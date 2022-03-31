@@ -144,27 +144,27 @@ export function removeAllBoards() {
 }
 
 
-async function addNewPrivateBoard(){
+async function addNewPrivateBoard() {
     let button = document.getElementById('new-private-board')
     button.addEventListener('click', async function () {
         let newTitle = "New Private board"
         await dataHandler.addNewPrivateBoard(newTitle)
+        let lastID = await dataHandler.getMaxId()
+        const boards = await dataHandler.getBoards();
+        for (let board of boards) {
+            if (board.id == lastID[0].max) {
+                const boardBuilder = htmlFactory(htmlTemplates.board);
+                const content = boardBuilder(board);
+                domManager.addChild("#all-boards", content);
+                domManager.addEventListener(`.board-title[data-title-id="${board.id}"]`, "click", changeBoardTitle)
+                domManager.addEventListener(
+                    `.toggle-board-button[data-board-id="${board.id}"]`,
+                    "click",
+                    showHideButtonHandler);
+                domManager.addEventListener(`.board-add[data-board-id="${board.id}"]`, "click", addNewCard);
+                domManager.addEventListener(`.board-delete[data-board-id="${board.id}"]`, "click", deleteBoard);
+                domManager.addEventListener(`.add-column[data-board-id="${board.id}"]`, "click", addColumn);
+            }
+        }
     })
 }
-        //
-        // let lastID = await dataHandler.getMaxId()
-        // const boards = await dataHandler.getBoards();
-        // for (let board of boards) { if (board.id == lastID[0].max){
-        //     const boardBuilder = htmlFactory(htmlTemplates.board);
-        //     const content = boardBuilder(board);
-        //     domManager.addChild("#all-boards", content);
-        //     domManager.addEventListener(`.board-title[data-title-id="${board.id}"]`, "click", changeBoardTitle)
-        //     domManager.addEventListener(
-        //         `.toggle-board-button[data-board-id="${board.id}"]`,
-        //         "click",
-        //         showHideButtonHandler);
-        //     domManager.addEventListener(`.board-add[data-board-id="${board.id}"]`, "click", addNewCard);
-        //     domManager.addEventListener(`.board-delete[data-board-id="${board.id}"]`, "click", deleteBoard);
-        //     domManager.addEventListener(`.add-column[data-board-id="${board.id}"]`, "click", addColumn);
-        // }}})
-
