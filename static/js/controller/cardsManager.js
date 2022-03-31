@@ -76,4 +76,10 @@ export async function removeColumn(clickEvent) {
     console.log(columnId)
     await dataHandler.deleteSpecificColumn(columnId)
     document.querySelectorAll(`.board-column[data-status-id="${columnId}"]`).forEach(e => e.remove());
+    let buttons = document.getElementsByClassName('add-column');
+    for (let button of buttons) {
+        if (button.innerText === "Can't add new column") {
+            button.innerText = "Add column"
+        }
+    }
 }
