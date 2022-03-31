@@ -146,9 +146,10 @@ async function drop(e) {
 
 async function clearCards (boardID){
     let btn = document.querySelectorAll('.toggle-board-button')
+    console.log(boardID)
     let counter = 0
     while (counter<2){
-            console.log (btn.length)
+            // console.log (btn.length)
             await btnClick(boardID)
             counter++
     }
@@ -156,6 +157,8 @@ async function clearCards (boardID){
 }
 
 async function btnClick(i){
-    let btn = document.querySelectorAll('.toggle-board-button')
-    setTimeout((btn[i].click()),3000)
+    console.log(i)
+    console.log(document.querySelector(`.toggle-board-button[data-board-id="${i+1}"]`))
+    let btn = document.querySelector(`.toggle-board-button[data-board-id="${i+1}"]`)
+    setTimeout((btn.click()),3000)
 }
