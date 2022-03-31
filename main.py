@@ -13,54 +13,42 @@ load_dotenv()
 
 @app.route("/")
 def index():
-    """
-    This is a one-pager which shows all the boards and cards
-    """
-
     return render_template('index.html')
+
 
 @app.route("/api/swap/<string:card_1>/<string:card_2>", methods=["POST"])
 @json_response
-def swap_cards(card_1,card_2):
-    queries.swap_cards(int(card_1),int(card_2))
+def swap_cards(card_1, card_2):
+    queries.swap_cards(int(card_1), int(card_2))
+
 
 @app.route("/api/newCardPos/<string:col>/<string:card>/<string:boardID>", methods=["POST"])
 @json_response
-def newCardPos(col,card, boardID):
-    queries.newCardPos(int(col),int(card),int(boardID))
+def newCardPos(col, card, boardID):
+    queries.newCardPos(int(col), int(card), int(boardID))
 
 
 @app.route("/api/boards")
 @json_response
 def get_boards():
-    """
-    All the boards
-    """
     not_private_boards = queries.get_boards()
     if "user_id" in session:
         user_id = session["user_id"]
         private_boards = queries.get_private_boards(user_id)
         all_boards = not_private_boards + private_boards
-        print(all_boards)
         return all_boards
     return not_private_boards
+
 
 @app.route("/api/boards/<int:board_id>/cards/")
 @json_response
 def get_cards_for_board(board_id: int):
-    """
-    All cards that belong to a board
-    :param board_id: id of the parent board
-    """
     return queries.get_cards_for_board(board_id)
 
 
 @app.route("/api/statuses")
 @json_response
 def get_statuses():
-    """
-    All the statuses
-    """
     return queries.get_all_columns_names()
 
 
@@ -210,7 +198,6 @@ def add_new_private_board(title):
 @json_response
 def get_lowest_status_id():
     return queries.get_lowest_status()
-
 
 
 def main():

@@ -68,7 +68,7 @@ async function addNewBoard (){
     await dataHandler.addBoard(titleValue)
         let lastID = await dataHandler.getMaxId()
         const boards = await dataHandler.getBoards();
-        for (let board of boards) { if (board.id == lastID[0].max){
+        for (let board of boards) { if (board.id === lastID[0].max){
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
             domManager.addChild("#root", content);
@@ -89,7 +89,6 @@ async function addNewCard(clickEvent) {
     let statusId = await dataHandler.getLowestStatusId();
     await dataHandler.createNewCard("New card", boardId, statusId[0].min);
     let newCardData = await dataHandler.getNewCardData()
-    console.log(newCardData[0].id)
     if (button.innerText === "Hide cards") {
         let content = `<div draggable="true" id="${newCardData[0].id}" title="${boardId}" class="card col${newCardData[0].status_id}" data-card-id="${newCardData[0].id}" contenteditable="true">${newCardData[0].title}
                     <div class="card-remove" data-remove-card-id="${newCardData[0].id}">x</div>
@@ -126,9 +125,7 @@ async function addColumn(clickEvent) {
         let newColumn = await dataHandler.newColumnData()
         let allBoards = await dataHandler.getAllBoardsIds()
         for (let currentBoardId of allBoards) {
-            console.log(currentBoardId.id)
             let button = document.querySelector(`.toggle-board-button[data-board-id="${currentBoardId.id}"]`);
-            console.log(button)
             if (button.innerText === "Hide cards") {
                 let newId = currentBoardId.id;
                 let newColumnContent = columnBuilder(newColumn[0], newId)
@@ -159,15 +156,12 @@ async function addNewPrivateBoard() {
         let lastID = await dataHandler.getMaxId()
         const boards = await dataHandler.getBoards();
         for (let board of boards) {
-            if (board.id == lastID[0].max) {
+            if (board.id === lastID[0].max) {
                 const boardBuilder = htmlFactory(htmlTemplates.board);
                 const content = boardBuilder(board);
                 domManager.addChild("#root", content);
                 domManager.addEventListener(`.board-title[data-title-id="${board.id}"]`, "click", changeBoardTitle)
-                domManager.addEventListener(
-                    `.toggle-board-button[data-board-id="${board.id}"]`,
-                    "click",
-                    showHideButtonHandler);
+                domManager.addEventListener(`.toggle-board-button[data-board-id="${board.id}"]`, "click", showHideButtonHandler);
                 domManager.addEventListener(`.board-add[data-board-id="${board.id}"]`, "click", addNewCard);
                 domManager.addEventListener(`.board-delete[data-board-id="${board.id}"]`, "click", deleteBoard);
                 domManager.addEventListener(`.add-column[data-board-id="${board.id}"]`, "click", addColumn);

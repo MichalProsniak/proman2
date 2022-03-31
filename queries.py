@@ -284,8 +284,10 @@ def delete_specific_column(cursor, column_id):
                     WHERE id = {column_id};
                 """).format(column_id=sql.Literal(column_id), )
     )
+
+
 @data_manager.connection_handler
-def newCardPos(cursor,col,card,boardID):
+def newCardPos(cursor, col, card, boardID):
     query = """
                SELECT card_order FROM cards
                WHERE board_id=%s and status_id=%s
@@ -297,18 +299,18 @@ def newCardPos(cursor,col,card,boardID):
         max_order = 1
     else:
         max_order = dict_order['card_order']
-
-
     query = """
-    UPDATE
-    cards
-    SET
-    status_id = %s,
-    card_order = %s
-    WHERE
-    id = %s
+            UPDATE
+            cards
+            SET
+            status_id = %s,
+            card_order = %s
+            WHERE
+            id = %s
     """
     cursor.execute(query, (col, max_order, card))
+
+
 @data_manager.connection_handler
 def swap_cards(cursor,card_1,card_2):
     query = """
@@ -328,7 +330,6 @@ def swap_cards(cursor,card_1,card_2):
     card_2_title = (card_2_dict['title'])
 
 
-
 @data_manager.connection_handler
 def create_new_private_board(cursor, title, user_id):
     query = """
@@ -342,7 +343,6 @@ def get_lowest_status():
         """
         SELECT MIN(id) FROM statuses
         ;""")
-
 
     query = """
            UPDATE

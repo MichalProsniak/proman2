@@ -86,7 +86,6 @@ section.board{
 }
 
 .board-column-content:empty{
-    /*This only works if the tag is really empty and there is not even whitespace inside*/
     border: 4px solid #cdcdcd;
     margin-top: 4px;
     border-radius: 10px;
@@ -99,28 +98,11 @@ section.board{
 
 .card{
     position: relative;
-    /*background-color: pink;*/
     color: white;
     border-radius: 15px;
     margin: 4px 0;
     padding: 4px;
 }
-
-/*.col1{*/
-/*    background-color: darkred;*/
-/*}*/
-
-/*.col2 {*/
-/*    background-color: orangered;*/
-/*}*/
-
-/*.col3 {*/
-/*    background-color: goldenrod;*/
-/*}*/
-
-/*.col4 {*/
-/*    background-color: limegreen;*/
-/*}*/
 
 .card-remove{
     display: block;
@@ -199,7 +181,6 @@ section.board{
     text-align: center;
     display: inline-block;
 }
-
 
 .board-column:nth-of-type(1) .card{
     background: var(--status-1);
