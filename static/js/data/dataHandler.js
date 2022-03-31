@@ -58,6 +58,9 @@ export let dataHandler = {
     },
     deleteSpecificColumn: async function (columnId) {
         return apiPost(`/api/delete-column/${columnId}`)
+    },
+    addNewPrivateBoard: async function (title){
+        await apiPost(`/api/new-private-board/${title}`)
     }
 };
 

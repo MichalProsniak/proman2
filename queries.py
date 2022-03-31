@@ -256,3 +256,11 @@ def delete_specific_column(cursor, column_id):
                     WHERE id = {column_id};
                 """).format(column_id=sql.Literal(column_id), )
     )
+
+
+@data_manager.connection_handler
+def create_new_private_board(cursor, title, user_id):
+    query = """
+        INSERT INTO boards (title, private, user_id)
+        VALUES (%s, %s, %s);"""
+    cursor.execute(query, (title, 1, user_id))

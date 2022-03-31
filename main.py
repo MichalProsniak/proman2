@@ -178,6 +178,13 @@ def delete_column(column_id):
     queries.delete_specific_column(column_id)
 
 
+@app.route('/api/new-private-board/<string:title>', methods=['POST'])
+@json_response
+def add_new_private_board(title):
+    user_id = session["user_id"]
+    queries.create_new_private_board(title, user_id)
+
+
 def main():
     app.run(debug=True)
     # Serving the favicon
