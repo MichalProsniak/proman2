@@ -61,6 +61,9 @@ export let dataHandler = {
     },
     addNewPrivateBoard: async function (title){
         await apiPost(`/api/new-private-board/${title}`)
+    },
+    getLowestStatusId: async function (){
+        return await apiGet(`/api/lowest-status-id`)
     }
 };
 

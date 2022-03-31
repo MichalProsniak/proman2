@@ -191,6 +191,13 @@ def add_new_private_board(title):
     queries.create_new_private_board(title, user_id)
 
 
+@app.route('/api/lowest-status-id')
+@json_response
+def get_lowest_status_id():
+    return queries.get_lowest_status()
+
+
+
 def main():
     app.run(debug=True)
     # Serving the favicon

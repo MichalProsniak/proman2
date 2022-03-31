@@ -280,3 +280,11 @@ def create_new_private_board(cursor, title, user_id):
         INSERT INTO boards (title, private, user_id)
         VALUES (%s, %s, %s);"""
     cursor.execute(query, (title, 1, user_id))
+
+
+def get_lowest_status():
+    return data_manager.execute_select(
+        """
+        SELECT MIN(id) FROM statuses
+        ;""")
+

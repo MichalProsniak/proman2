@@ -13,7 +13,7 @@ export let boardsManager = {
         for (let board of boards) {
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
-            domManager.addChild("#root", content);
+            domManager.addChild("#all-boards", content);
             domManager.addEventListener(`.board-title[data-title-id="${board.id}"]`, "click", changeBoardTitle)
             domManager.addEventListener(
                 `.toggle-board-button[data-board-id="${board.id}"]`,
@@ -70,7 +70,7 @@ async function addNewBoard (){
         for (let board of boards) { if (board.id == lastID[0].max){
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
-            domManager.addChild("#root", content);
+            domManager.addChild("#all-boards", content);
             domManager.addEventListener(`.board-title[data-title-id="${board.id}"]`, "click", changeBoardTitle)
             domManager.addEventListener(
                 `.toggle-board-button[data-board-id="${board.id}"]`,
@@ -85,7 +85,8 @@ async function addNewBoard (){
 async function addNewCard(clickEvent) {
     let boardId = clickEvent.target.dataset.boardId;
     let button = document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`);
-    await dataHandler.createNewCard("New card", boardId, 1);
+    let statusId = await dataHandler.getLowestStatusId();
+    await dataHandler.createNewCard("New card", boardId, statusId[0].min);
     let newCardData = await dataHandler.getNewCardData();
     if (button.innerText === "Hide cards") {
         let content = `<div class="card col${newCardData[0].status_id}" data-card-id="${newCardData[0].id}" contenteditable="true">${newCardData[0].title}
@@ -155,7 +156,7 @@ async function addNewPrivateBoard() {
             if (board.id == lastID[0].max) {
                 const boardBuilder = htmlFactory(htmlTemplates.board);
                 const content = boardBuilder(board);
-                domManager.addChild("#root", content);
+                domManager.addChild("#all-boards", content);
                 domManager.addEventListener(`.board-title[data-title-id="${board.id}"]`, "click", changeBoardTitle)
                 domManager.addEventListener(
                     `.toggle-board-button[data-board-id="${board.id}"]`,
