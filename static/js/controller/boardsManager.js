@@ -13,7 +13,7 @@ export let boardsManager = {
         for (let board of boards) {
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
-            domManager.addChild("#all-boards", content);
+            domManager.addChild("#root", content);
             domManager.addEventListener(`.board-title[data-title-id="${board.id}"]`, "click", changeBoardTitle)
             domManager.addEventListener(
                 `.toggle-board-button[data-board-id="${board.id}"]`,
@@ -28,6 +28,7 @@ export let boardsManager = {
 };
 
 addNewBoard ()
+addNewPrivateBoard()
 
 function showHideButtonHandler(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
@@ -69,7 +70,7 @@ async function addNewBoard (){
         for (let board of boards) { if (board.id == lastID[0].max){
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
-            domManager.addChild("#all-boards", content);
+            domManager.addChild("#root", content);
             domManager.addEventListener(`.board-title[data-title-id="${board.id}"]`, "click", changeBoardTitle)
             domManager.addEventListener(
                 `.toggle-board-button[data-board-id="${board.id}"]`,
@@ -84,7 +85,8 @@ async function addNewBoard (){
 async function addNewCard(clickEvent) {
     let boardId = clickEvent.target.dataset.boardId;
     let button = document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`);
-    await dataHandler.createNewCard("New card", boardId, 1);
+    let statusId = await dataHandler.getLowestStatusId();
+    await dataHandler.createNewCard("New card", boardId, statusId[0].min);
     let newCardData = await dataHandler.getNewCardData();
     if (button.innerText === "Hide cards") {
         let content = `<div class="card col${newCardData[0].status_id}" data-card-id="${newCardData[0].id}" contenteditable="true">${newCardData[0].title}
@@ -136,4 +138,34 @@ async function addColumn(clickEvent) {
             button.innerText = "Can't add new column"
         }
     }
+}
+
+export function removeAllBoards() {
+    document.querySelectorAll('.board-container').forEach(e => e.remove())
+}
+
+
+async function addNewPrivateBoard() {
+    let button = document.getElementById('new-private-board')
+    button.addEventListener('click', async function () {
+        let newTitle = "New Private board"
+        await dataHandler.addNewPrivateBoard(newTitle)
+        let lastID = await dataHandler.getMaxId()
+        const boards = await dataHandler.getBoards();
+        for (let board of boards) {
+            if (board.id == lastID[0].max) {
+                const boardBuilder = htmlFactory(htmlTemplates.board);
+                const content = boardBuilder(board);
+                domManager.addChild("#root", content);
+                domManager.addEventListener(`.board-title[data-title-id="${board.id}"]`, "click", changeBoardTitle)
+                domManager.addEventListener(
+                    `.toggle-board-button[data-board-id="${board.id}"]`,
+                    "click",
+                    showHideButtonHandler);
+                domManager.addEventListener(`.board-add[data-board-id="${board.id}"]`, "click", addNewCard);
+                domManager.addEventListener(`.board-delete[data-board-id="${board.id}"]`, "click", deleteBoard);
+                domManager.addEventListener(`.add-column[data-board-id="${board.id}"]`, "click", addColumn);
+            }
+        }
+    })
 }

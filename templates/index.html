@@ -25,11 +25,17 @@
                 <li><a href="/login"><button TYPE="button">Login</button></a></li>
                 <p>You are not logged in. Now, you can see only public boards!</p>
                 {% endif %}
+                <button id="refresh" style="margin-left: 75%">Refresh</button>
             </div>
         </nav>
         <h1>ProMan</h1>
         <div id="root"></div>
         <div id="all-boards"></div>
+        {% if "username" in session %}
+        <button id="new-private-board" style="margin-left: 75%">Add new private board</button>
+            <br>
+            <br>
+        {% endif %}
         <button id="new-board" style="margin-left: 75%">Add new board</button>
       </div>
     </body>

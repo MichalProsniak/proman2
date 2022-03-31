@@ -35,8 +35,24 @@ def get_boards():
     return data_manager.execute_select(
         """
         SELECT * FROM boards
+        WHERE private = 0
         ORDER BY id
         ;""")
+
+
+def get_private_boards(user_id):
+    """
+    Gather all boards
+    :return:
+    """
+    all_private_boards = data_manager.execute_select(
+        """
+        SELECT * FROM boards
+        WHERE private = 1 AND user_id = %(user_id)s
+        ORDER BY id
+        ;"""
+        , {"user_id": user_id})
+    return all_private_boards
 
 
 def get_cards_for_board(board_id):
@@ -295,6 +311,22 @@ def swap_cards(cursor,card_1,card_2):
     cursor.execute(query, (card_2,))
     card_2_dict = cursor.fetchone()
     card_2_title = (card_2_dict['title'])
+
+
+
+@data_manager.connection_handler
+def create_new_private_board(cursor, title, user_id):
+    query = """
+        INSERT INTO boards (title, private, user_id)
+        VALUES (%s, %s, %s);"""
+    cursor.execute(query, (title, 1, user_id))
+
+
+def get_lowest_status():
+    return data_manager.execute_select(
+        """
+        SELECT MIN(id) FROM statuses
+        ;""")
 
 
     query = """

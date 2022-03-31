@@ -36,8 +36,14 @@ def get_boards():
     """
     All the boards
     """
-    return queries.get_boards()
-
+    not_private_boards = queries.get_boards()
+    if "user_id" in session:
+        user_id = session["user_id"]
+        private_boards = queries.get_private_boards(user_id)
+        all_boards = not_private_boards + private_boards
+        print(all_boards)
+        return all_boards
+    return not_private_boards
 
 @app.route("/api/boards/<int:board_id>/cards/")
 @json_response
@@ -186,6 +192,20 @@ def get_all_boards_ids():
 def delete_column(column_id):
     queries.delete_all_cards_from_column(column_id)
     queries.delete_specific_column(column_id)
+
+
+@app.route('/api/new-private-board/<string:title>', methods=['POST'])
+@json_response
+def add_new_private_board(title):
+    user_id = session["user_id"]
+    queries.create_new_private_board(title, user_id)
+
+
+@app.route('/api/lowest-status-id')
+@json_response
+def get_lowest_status_id():
+    return queries.get_lowest_status()
+
 
 
 def main():
