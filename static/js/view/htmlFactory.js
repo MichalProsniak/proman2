@@ -43,7 +43,8 @@ function cardBuilder(card, column) {
 
 export function columnBuilder(column, boardId) {
     return `<div class="board-column" data-column-id="${boardId}${column.id}">
-                <div class="board-column-title" data-column-id="${boardId}${column.id}" data-status-id="${column.id}" contenteditable="true">${column.title}</div>
+                <div style="display: inline-block;" class="board-column-title" data-column-id="${boardId}${column.id}" data-status-id="${column.id}" contenteditable="true">${column.title}</div>
+                <div style="display: inline-block; float: right" class="column-remove" data-remove-column-id="${column.id}">x</div>
                 <div class="board-column-content" data-column-id="${boardId}${column.id}"></div>
             </div>`
 }
