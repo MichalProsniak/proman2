@@ -91,14 +91,14 @@ const columns = document.querySelectorAll('.board-column');
     // console.log (columns)
 for (let i=0;i<item.length;i++) {
     item[i].addEventListener('dragstart', dragStart)
-    item[i].addEventListener('dragenter', dragEnter)
-    item[i].addEventListener('dragover', dragOver);
-    item[i].addEventListener('dragleave', dragLeave);
-    item[i].addEventListener('drop', drop);
+    // item[i].addEventListener('dragenter', dragEnter)
+    // item[i].addEventListener('dragover', dragOver);
+    // item[i].addEventListener('dragleave', dragLeave);
+    // item[i].addEventListener('drop', drop);
 };
 for (let i=0;i<columns.length;i++){
     columns[i].addEventListener('dragenter', dragEnter)
-    columns[i].addEventListener('dragover', dragOver);
+    columns[i].addEventListener('dragover', dragOver1);
     columns[i].addEventListener('dragleave', dragLeave);
     columns[i].addEventListener('drop', drop);
 }
@@ -121,14 +121,21 @@ function dragOver(e) {
     e.target.classList.add('drag-over');
 }
 
+function dragOver1(e) {
+    e.preventDefault();
+    e.target.classList.add('drag-over');
+}
+
 function dragLeave(e) {
 }
 
 async function drop(e) {
     const dropzoneID = e.currentTarget.id
-    const draggable = e.dataTransfer.getData('text/plain');
-    let draggableID = document.getElementById(draggable).id;
-    let boardID = document.getElementById(draggable).title
+    console.log(e.currentTarget)
+    const draggableID = e.dataTransfer.getData('text/plain');
+    // console.log(draggable)
+    // let draggableID = document.getElementById(draggable).id;
+    let boardID = document.getElementById(draggableID).title
     if (e.currentTarget.className == "board-column drag-over") {
         await dataHandler.newCardPos(dropzoneID,draggableID,boardID)
     }else{
