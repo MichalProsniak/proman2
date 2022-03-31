@@ -66,6 +66,12 @@ def rename_column_by_id(status_id, column_title):
     queries.rename_column_by_id(status_id, column_title)
 
 
+@app.route("/rename-card-by-id/<int:card_id>/<string:card_title>", methods=["POST"])
+@json_response
+def rename_card_by_id(card_id, card_title):
+    queries.rename_card_by_id(card_id, card_title)
+
+
 @app.route("/add-board/<string:board_title>", methods=["POST"])
 @json_response
 def new_board(board_title):
@@ -127,7 +133,6 @@ def logout():
 @json_response
 def add_new_card(card_title, board_id, status_id):
     card_number = queries.get_card_order(board_id, status_id)
-    print(card_number)
     if card_number[0]['max'] is None:
         new_card_number = 1
     else:

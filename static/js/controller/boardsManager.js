@@ -4,11 +4,11 @@ import {domManager} from "../view/domManager.js";
 import {cardsManager} from "./cardsManager.js";
 import {changeColumnTitle} from "./cardsManager.js";
 import {deleteButtonHandler} from "./cardsManager.js";
+import {changeCardTitle} from "./cardsManager.js";
 
 export let boardsManager = {
     loadBoards: async function () {
         const boards = await dataHandler.getBoards();
-        console.log(boards)
         for (let board of boards) {
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
@@ -31,7 +31,6 @@ addNewBoard ()
 function showHideButtonHandler(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
     let button = document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`);
-    console.log(button)
     if (button.innerText === "Show cards") {
         cardsManager.loadCards(boardId);
         button.innerText = "Hide cards";
@@ -87,7 +86,7 @@ async function addNewCard(clickEvent) {
     await dataHandler.createNewCard("New card", boardId, 1);
     let newCardData = await dataHandler.getNewCardData();
     if (button.innerText === "Hide cards") {
-        let content = `<div class="card col${newCardData[0].status_id}" data-card-id="${newCardData[0].id}" >${newCardData[0].title}
+        let content = `<div class="card col${newCardData[0].status_id}" data-card-id="${newCardData[0].id}" contenteditable="true">${newCardData[0].title}
                     <div class="card-remove" data-remove-card-id="${newCardData[0].id}">x</div>
                 </div>`;
         domManager.addChild(`.board-column-content[data-column-id="${newCardData[0].board_id}${newCardData[0].status_id}"]`, content);
@@ -97,6 +96,7 @@ async function addNewCard(clickEvent) {
             "click",
             deleteButtonHandler
         );
+        domManager.addEventListener(`.card[data-card-id='${newCardData[0].id}']`, "click", changeCardTitle)
     }
 }
 
@@ -110,7 +110,6 @@ async function deleteBoard(clickEvent) {
 async function addColumn(clickEvent) {
     let numberOfStatuses = await dataHandler.getStatuses()
     if (numberOfStatuses.length <= 6) {
-        console.log(numberOfStatuses.length)
         if (numberOfStatuses.length === 6) {
             let allButtons = document.getElementsByClassName(`add-column`);
             for (let button of allButtons) {

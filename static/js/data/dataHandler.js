@@ -29,11 +29,13 @@ export let dataHandler = {
     renameColumn: async function(statusId, columnTitle) {
         await apiPost(`/rename-column-by-id/${statusId}/${columnTitle}`)
     },
+    renameCard: async function(cardId, cardTitle) {
+        await apiPost(`/rename-card-by-id/${cardId}/${cardTitle}`)
+    },
     deleteSpecificCard: async function(cardId) {
         await apiPost(`/delete-card/${cardId}`)
     },
     addBoard: async function (boardTitle){
-        console.log ('new board')
         await apiPost(`/add-board/${boardTitle}`)
     },
     getNewCardData: async function (){

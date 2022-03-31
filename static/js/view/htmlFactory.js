@@ -36,7 +36,7 @@ function boardBuilder(board) {
 }
 
 function cardBuilder(card, column) {
-    return `<div class="card col${column.id}" data-card-id="${card.id}" >${card.title}
+    return `<div class="card col${column.id}" data-card-id="${card.id}" contenteditable="true">${card.title}
                 <div class="card-remove" data-remove-card-id="${card.id}">x</div>
             </div>`;
 }

@@ -82,6 +82,17 @@ def rename_column_by_id(cursor, column_id, column_title):
 
 
 @data_manager.connection_handler
+def rename_card_by_id(cursor, card_id, card_title):
+    cursor.execute(
+        sql.SQL("""
+            UPDATE cards
+            SET title = {card_title}
+            WHERE id = {card_id}
+        """).format(card_id=sql.Literal(card_id), card_title=sql.Literal(card_title))
+    )
+
+
+@data_manager.connection_handler
 def add_board(cursor, new_title):
     query = """
     INSERT INTO boards (title)
