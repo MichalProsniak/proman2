@@ -171,6 +171,13 @@ def get_all_boards_ids():
     return queries.all_boards_ids()
 
 
+@app.route('/api/delete-column/<int:column_id>', methods=['POST'])
+@json_response
+def delete_column(column_id):
+    queries.delete_all_cards_from_column(column_id)
+    queries.delete_specific_column(column_id)
+
+
 def main():
     app.run(debug=True)
     # Serving the favicon
