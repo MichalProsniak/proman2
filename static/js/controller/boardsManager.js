@@ -134,6 +134,7 @@ async function addColumn(clickEvent) {
                 domManager.addEventListener(`.column-remove[data-remove-status-id="${newId}${newColumn[0].id}"]`, "click", removeColumn)
                 domManager.addEventListener(`.board-column-title[data-column-id="${newId}${newColumn[0].id}"]`, "click", changeColumnTitle)
             }
+            findCards()
         }
     } else {
         let allButtons = document.getElementsByClassName(`add-column`);
