@@ -120,7 +120,6 @@ async function addColumn(clickEvent) {
         await dataHandler.addNewColumn()
         let newColumn = await dataHandler.newColumnData()
         let allBoards = await dataHandler.getAllBoardsIds()
-
         for (let currentBoardId of allBoards) {
             let button = document.querySelector(`.toggle-board-button[data-board-id="${currentBoardId.id}"]`);
             if (button.innerText === "Hide cards") {
@@ -137,5 +136,4 @@ async function addColumn(clickEvent) {
             button.innerText = "Can't add new column"
         }
     }
-
 }

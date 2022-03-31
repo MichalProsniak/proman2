@@ -25,9 +25,9 @@ function boardBuilder(board) {
                 <section class="board" data-board-id="${board.id}">
                     <div class="board-header"><span class="board-title" data-title-id="${board.id}" contenteditable="true">${board.title}</span>
                         <button class="board-add" data-board-id="${board.id}">Add Card</button>
-                        <button class="board-delete" data-board-id="${board.id}">Delete</button>
+                        <button class="board-delete" data-board-id="${board.id}">Delete Board</button>
                         <button class="add-column" data-board-id="${board.id}">Add Column</button>
-                        <button class="toggle-board-button" data-board-id="${board.id}">Show cards</button>
+                        <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
                     </div>
                     <div class="board-columns" data-board-id="${board.id}"></div>
                 </section>
