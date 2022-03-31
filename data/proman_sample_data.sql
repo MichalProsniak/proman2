@@ -84,3 +84,13 @@ ALTER TABLE ONLY cards
 
 ALTER TABLE ONLY cards
     ADD CONSTRAINT fk_cards_status_id FOREIGN KEY (status_id) REFERENCES statuses(id);
+
+alter table boards
+    add private int default 0 not null;
+
+alter table boards
+    add user_id int default Null;
+
+alter table boards
+    add constraint boards_users_id_fk
+        foreign key (user_id) references users;
