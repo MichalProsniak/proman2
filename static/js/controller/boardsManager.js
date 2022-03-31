@@ -13,7 +13,7 @@ export let boardsManager = {
         for (let board of boards) {
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
-            domManager.addChild("#all-boards", content);
+            domManager.addChild("#root", content);
             domManager.addEventListener(`.board-title[data-title-id="${board.id}"]`, "click", changeBoardTitle)
             domManager.addEventListener(
                 `.toggle-board-button[data-board-id="${board.id}"]`,
@@ -70,7 +70,7 @@ async function addNewBoard (){
         for (let board of boards) { if (board.id == lastID[0].max){
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
-            domManager.addChild("#all-boards", content);
+            domManager.addChild("#root", content);
             domManager.addEventListener(`.board-title[data-title-id="${board.id}"]`, "click", changeBoardTitle)
             domManager.addEventListener(
                 `.toggle-board-button[data-board-id="${board.id}"]`,
@@ -155,7 +155,7 @@ async function addNewPrivateBoard() {
             if (board.id == lastID[0].max) {
                 const boardBuilder = htmlFactory(htmlTemplates.board);
                 const content = boardBuilder(board);
-                domManager.addChild("#all-boards", content);
+                domManager.addChild("#root", content);
                 domManager.addEventListener(`.board-title[data-title-id="${board.id}"]`, "click", changeBoardTitle)
                 domManager.addEventListener(
                     `.toggle-board-button[data-board-id="${board.id}"]`,
