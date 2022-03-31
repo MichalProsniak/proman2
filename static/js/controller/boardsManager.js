@@ -126,7 +126,9 @@ async function addColumn(clickEvent) {
         let newColumn = await dataHandler.newColumnData()
         let allBoards = await dataHandler.getAllBoardsIds()
         for (let currentBoardId of allBoards) {
+            console.log(currentBoardId.id)
             let button = document.querySelector(`.toggle-board-button[data-board-id="${currentBoardId.id}"]`);
+            console.log(button)
             if (button.innerText === "Hide cards") {
                 let newId = currentBoardId.id;
                 let newColumnContent = columnBuilder(newColumn[0], newId)

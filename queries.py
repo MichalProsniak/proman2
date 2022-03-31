@@ -250,8 +250,20 @@ def all_boards_ids():
     return data_manager.execute_select(
         """
         SELECT id FROM boards
+        WHERE private = 0
         ORDER BY id ASC
         ;""")
+
+
+def all_private_ids(user_id):
+    ids = data_manager.execute_select(
+        """
+        SELECT id FROM boards
+        WHERE private = 1 and user_id = %(user_id)s 
+        ORDER BY id ASC
+        ;""",
+        {"user_id": user_id})
+    return ids
 
 
 @data_manager.connection_handler

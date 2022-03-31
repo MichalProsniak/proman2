@@ -157,8 +157,6 @@ async function clearCards (boardID){
 }
 
 async function btnClick(i){
-    console.log(i)
-    console.log(document.querySelector(`.toggle-board-button[data-board-id="${i+1}"]`))
     let btn = document.querySelector(`.toggle-board-button[data-board-id="${i+1}"]`)
     setTimeout((btn.click()),3000)
 }

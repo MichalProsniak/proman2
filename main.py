@@ -184,7 +184,12 @@ def new_column():
 @app.route('/api/all-boards-ids')
 @json_response
 def get_all_boards_ids():
-    return queries.all_boards_ids()
+    public_ids = queries.all_boards_ids()
+    if len(session) > 0:
+        user_id = session["user_id"]
+        private_ids = queries.all_private_ids(user_id)
+        return public_ids + private_ids
+    return public_ids
 
 
 @app.route('/api/delete-column/<int:column_id>', methods=['POST'])
