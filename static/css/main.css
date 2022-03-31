@@ -1,16 +1,16 @@
 :root{
     --border-radius: 3px;
     --status-1: #590000;
-    --status-2: orange;
-    --status-3: pink;
-    --status-4: yellow;
-    --status-5: gold;
+    --status-2: orangered;
+    --status-3: hotpink;
+    --status-4: brown;
+    --status-5: darkgoldenrod;
     --status-6: yellowgreen;
     --status-7: #085900;
 }
 
 #boards {
-    background-color: yellow;
+    background-color: darkgoldenrod;
 }
 
 body{
