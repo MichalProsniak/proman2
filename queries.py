@@ -256,3 +256,61 @@ def delete_specific_column(cursor, column_id):
                     WHERE id = {column_id};
                 """).format(column_id=sql.Literal(column_id), )
     )
+@data_manager.connection_handler
+def newCardPos(cursor,col,card,boardID):
+    query = """
+               SELECT card_order FROM cards
+               WHERE board_id=%s and status_id=%s
+               ORDER by card_order DESC LIMIT 1
+               """
+    cursor.execute(query, (boardID, col))
+    dict_order = cursor.fetchone()
+    max_order = dict_order['card_order']
+    print (col)
+
+    query = """
+    UPDATE
+    cards
+    SET
+    status_id = %s,
+    card_order = %s
+    WHERE
+    id = %s
+    """
+    cursor.execute(query, (col, max_order, card))
+@data_manager.connection_handler
+def swap_cards(cursor,card_1,card_2):
+    query = """
+           SELECT title From cards
+           WHERE id=%s;
+           """
+    cursor.execute(query, (card_1,))
+    card_1_dict = cursor.fetchone()
+    card_1_title = (card_1_dict['title'])
+
+    query = """
+           SELECT title From cards
+           WHERE id=%s;
+           """
+    cursor.execute(query, (card_2,))
+    card_2_dict = cursor.fetchone()
+    card_2_title = (card_2_dict['title'])
+
+
+    query = """
+           UPDATE
+           cards
+           SET
+           title = %s
+           WHERE id = %s;
+           """
+    cursor.execute(query, (card_2_title, card_1,))
+
+    query = """
+           UPDATE
+           cards
+           SET
+           title = %s
+           WHERE id = %s;
+           """
+    cursor.execute(query, (card_1_title, card_2,))

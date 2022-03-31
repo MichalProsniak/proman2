@@ -58,6 +58,12 @@ export let dataHandler = {
     },
     deleteSpecificColumn: async function (columnId) {
         return apiPost(`/api/delete-column/${columnId}`)
+    },
+    swapCards: async function (card1,card2){
+        await apiPost(`/api/swap/${card1}/${card2}`)
+    },
+    newCardPos: async function (col,card,board_id){
+        await apiPost(`/api/newCardPos/${col}/${card}/${board_id}`)
     }
 };
 

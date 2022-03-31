@@ -19,6 +19,16 @@ def index():
 
     return render_template('index.html')
 
+@app.route("/api/swap/<string:card_1>/<string:card_2>", methods=["POST"])
+@json_response
+def swap_cards(card_1,card_2):
+    queries.swap_cards(int(card_1),int(card_2))
+
+@app.route("/api/newCardPos/<string:col>/<string:card>/<string:boardID>", methods=["POST"])
+@json_response
+def newCardPos(col,card, boardID):
+    queries.newCardPos(int(col),int(card),int(boardID))
+
 
 @app.route("/api/boards")
 @json_response
