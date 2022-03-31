@@ -281,8 +281,11 @@ def newCardPos(cursor,col,card,boardID):
                """
     cursor.execute(query, (boardID, col))
     dict_order = cursor.fetchone()
-    max_order = dict_order['card_order']
-    print (col)
+    if dict_order is None:
+        max_order = 1
+    else:
+        max_order = dict_order['card_order']
+
 
     query = """
     UPDATE

@@ -85,7 +85,7 @@ export async function removeColumn(clickEvent) {
 }
 
 ////// DRAG AND DROP ITEM:
-async function findCards(){
+export async function findCards(){
 const item = document.querySelectorAll('.card');
 const columns = document.querySelectorAll('.board-column');
     // console.log (columns)
@@ -147,11 +147,12 @@ async function drop(e) {
 async function clearCards (boardID){
     let btn = document.querySelectorAll('.toggle-board-button')
     let counter = 0
-    while (counter<btn.length){
+    while (counter<2){
             console.log (btn.length)
-            btnClick(boardID)
+            await btnClick(boardID)
             counter++
     }
+
 }
 
 async function btnClick(i){
