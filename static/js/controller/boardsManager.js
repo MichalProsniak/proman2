@@ -4,6 +4,7 @@ import {domManager} from "../view/domManager.js";
 import {cardsManager} from "./cardsManager.js";
 import {changeColumnTitle} from "./cardsManager.js";
 import {deleteButtonHandler} from "./cardsManager.js";
+import {removeColumn} from "./cardsManager.js";
 
 export let boardsManager = {
     loadBoards: async function () {
@@ -127,6 +128,7 @@ async function addColumn(clickEvent) {
                 let newId = currentBoardId.id;
                 let newColumnContent = columnBuilder(newColumn[0], newId)
                 domManager.addChild(`.board-columns[data-board-id="${currentBoardId.id}"]`, newColumnContent);
+                domManager.addEventListener(`.column-remove[data-remove-status-id="${newId}${newColumn[0].id}"]`, "click", removeColumn)
                 domManager.addEventListener(`.board-column-title[data-column-id="${newId}${newColumn[0].id}"]`, "click", changeColumnTitle)
             }
         }

@@ -12,6 +12,7 @@ export let cardsManager = {
             const columnsContent = columnBuilder(column, boardId)
             domManager.addChild(`.board-columns[data-board-id="${boardId}"]`, columnsContent);
             domManager.addEventListener(`.board-column-title[data-column-id="${boardId}${column.id}"]`, "click", changeColumnTitle)
+            domManager.addEventListener(`.column-remove[data-remove-status-id="${boardId}${column.id}"]`, "click", removeColumn)
             for (let card of cards) {
                 if (card.status_id === column.id) {
                     const cardBuilder = htmlFactory(htmlTemplates.card);
@@ -56,6 +57,15 @@ export function changeColumnTitle(clickEvent) {
             }
         })
     }
+}
+
+
+export async function removeColumn(clickEvent) {
+    let columnId = clickEvent.target.dataset.removeColumnId
+    console.log(columnId)
+    await dataHandler.deleteSpecificColumn(columnId)
+    document.querySelectorAll(`.board-column[data-status-id="${columnId}"]`).forEach(e => e.remove());
+
 }
 // async function newColumn (board_id){
 //     let clmButton = document.getElementById(`clmbutton${board.id}`)

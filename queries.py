@@ -225,3 +225,23 @@ def all_boards_ids():
         SELECT id FROM boards
         ORDER BY id ASC
         ;""")
+
+
+@data_manager.connection_handler
+def delete_all_cards_from_column(cursor, column_id):
+    cursor.execute(
+        sql.SQL("""
+                DELETE FROM cards 
+                WHERE status_id = {column_id};
+            """).format(column_id=sql.Literal(column_id), )
+    )
+
+
+@data_manager.connection_handler
+def delete_specific_column(cursor, column_id):
+    cursor.execute(
+        sql.SQL("""
+                    DELETE FROM statuses 
+                    WHERE id = {column_id};
+                """).format(column_id=sql.Literal(column_id), )
+    )
