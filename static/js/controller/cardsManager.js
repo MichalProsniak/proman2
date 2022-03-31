@@ -147,7 +147,8 @@ async function drop(e) {
 async function clearCards (boardID){
     let btn = document.querySelectorAll('.toggle-board-button')
     let counter = 0
-    while (counter<2){
+    while (counter<btn.length){
+            console.log (btn.length)
             btnClick(boardID)
             counter++
     }
