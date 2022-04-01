@@ -319,6 +319,7 @@ def swap_cards(cursor,card_1,card_2):
            """
     cursor.execute(query, (card_1,))
     card_1_dict = cursor.fetchone()
+
     card_1_title = (card_1_dict['title'])
 
     query = """
@@ -327,7 +328,26 @@ def swap_cards(cursor,card_1,card_2):
            """
     cursor.execute(query, (card_2,))
     card_2_dict = cursor.fetchone()
+
     card_2_title = (card_2_dict['title'])
+
+    query = """
+            UPDATE
+            cards
+            SET
+            title = %s
+            WHERE id = %s;
+            """
+    cursor.execute(query, (card_2_title, card_1,))
+
+    query = """
+            UPDATE
+            cards
+            SET
+            title = %s
+            WHERE id = %s;
+            """
+    cursor.execute(query, (card_1_title, card_2,))
 
 
 @data_manager.connection_handler

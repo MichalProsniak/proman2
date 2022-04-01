@@ -85,23 +85,37 @@ const item = document.querySelectorAll('.card');
 const columns = document.querySelectorAll('.board-column');
 for (let i=0;i<item.length;i++) {
     item[i].addEventListener('dragstart', dragStart)
+    item[i].addEventListener('dragenter', dragEnter)
+    item[i].addEventListener('dragover', dragOver);
+    item[i].addEventListener('dragleave', dragLeave);
+    item[i].addEventListener('drop', await dropCard);
 };
 
 for (let i=0;i<columns.length;i++){
     columns[i].addEventListener('dragenter', dragEnter)
-    columns[i].addEventListener('dragover', dragOver1);
+    columns[i].addEventListener('dragover', dragOver);
     columns[i].addEventListener('dragleave', dragLeave);
-    columns[i].addEventListener('drop', drop);
+    columns[i].addEventListener('drop', dropColumn);
 }
 }
 
 function dragStart(e){
+    e.currentTarget.classList.add('dragStart')
     e.dataTransfer.setData('text/plain', e.currentTarget.id);
+}
+
+async function eventRemove(){
+    const columns = document.querySelectorAll('.board-column');
+    for (let i=0;i<columns.length;i++){
+    columns[i].removeEventListener('dragenter', dragEnter)
+    columns[i].removeEventListener('dragover', dragOver);
+    columns[i].removeEventListener('dragleave', dragLeave);
+    columns[i].removeEventListener('drop', await dropColumn);}
 }
 
 function dragEnter(e) {
     e.preventDefault();
-    e.target.classList.add('drag-over');
+    e.target.classList.add('drag-enter');
 }
 
 function dragOver(e) {
@@ -109,22 +123,28 @@ function dragOver(e) {
     e.target.classList.add('drag-over');
 }
 
-function dragOver1(e) {
-    e.preventDefault();
-    e.target.classList.add('drag-over');
-}
 
 function dragLeave(e) {
 }
 
-async function drop(e) {
-    const dropzoneID = e.currentTarget.id
+async function dropColumn(e) {
+    console.log('column')
+    let dropzoneID = e.currentTarget.id
     const draggableID = e.dataTransfer.getData('text/plain');
     let boardID = document.getElementById(draggableID).title
-    if (e.currentTarget.className === "board-column drag-over") {
-        await dataHandler.newCardPos(dropzoneID,draggableID,boardID)
-    }else{
-    await dataHandler.swapCards(dropzoneID,draggableID)}
+
+    await dataHandler.newCardPos(dropzoneID,draggableID,boardID);
+    clearCards((boardID-1))
+}
+
+async function dropCard(e){
+    console.log ('card')
+    await eventRemove()
+    let dropzoneID = e.currentTarget.id
+    const draggableID = e.dataTransfer.getData('text/plain');
+    let boardID = document.getElementById(draggableID).title
+
+    await dataHandler.swapCards(dropzoneID,draggableID);
     clearCards((boardID-1))
 }
 
