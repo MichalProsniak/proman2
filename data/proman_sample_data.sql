@@ -42,6 +42,11 @@ CREATE TABLE cards (
     title       VARCHAR (200)       NOT NULL,
     card_order  INTEGER             NOT NULL
 );
+CREATE TABLE IF NOT EXISTS users (
+    id       SERIAL PRIMARY KEY     NOT NULL,
+    name     VARCHAR(200)           NOT NULL,
+    password VARCHAR(200)        NOT NULL
+);
 
 ---
 --- insert data
@@ -57,6 +62,8 @@ INSERT INTO boards(title) VALUES ('Board 2');
 
 INSERT INTO cards VALUES (nextval('cards_id_seq'), 1, 1, 'new card 1', 1);
 INSERT INTO cards VALUES (nextval('cards_id_seq'), 1, 1, 'new card 2', 2);
+INSERT INTO cards VALUES (nextval('cards_id_seq'), 1, 1, 'new card 3', 4);
+INSERT INTO cards VALUES (nextval('cards_id_seq'), 1, 1, 'new card 4', 3);
 INSERT INTO cards VALUES (nextval('cards_id_seq'), 1, 2, 'in progress card', 1);
 INSERT INTO cards VALUES (nextval('cards_id_seq'), 1, 3, 'planning', 1);
 INSERT INTO cards VALUES (nextval('cards_id_seq'), 1, 4, 'done card 1', 1);
@@ -77,3 +84,13 @@ ALTER TABLE ONLY cards
 
 ALTER TABLE ONLY cards
     ADD CONSTRAINT fk_cards_status_id FOREIGN KEY (status_id) REFERENCES statuses(id);
+
+alter table boards
+    add private int default 0 not null;
+
+alter table boards
+    add user_id int default Null;
+
+alter table boards
+    add constraint boards_users_id_fk
+        foreign key (user_id) references users;

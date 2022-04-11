@@ -1,12 +1,17 @@
-import { dom } from "./dom.js";
+import {boardsManager} from "./controller/boardsManager.js";
+import {removeAllBoards} from "./controller/boardsManager.js";
+import {domManager} from "./view/domManager.js";
 
-// This function is to initialize the application
+
 function init() {
-    // init data
-    dom.init();
-    // loads the boards to the screen
-    dom.loadBoards();
+    boardsManager.loadBoards();
+    let refreshButton = document.getElementById('refresh');
+    domManager.addEventListener("#refresh", "click", refresh)
+}
 
+function refresh() {
+    removeAllBoards()
+    boardsManager.loadBoards();
 }
 
 init();
