@@ -57,7 +57,7 @@ def execute_select(statement, variables=None, fetchall=True):
     statement: SELECT statement
     variables:  optional parameter dict, optional parameter fetchall"""
     result_set = []
-    with establish_connection() as conn:
+    with connection as conn:
         with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
             cursor.execute(statement, variables)
             result_set = cursor.fetchall() if fetchall else cursor.fetchone()
