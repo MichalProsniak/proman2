@@ -5,8 +5,8 @@ import {domManager} from "./view/domManager.js";
 
 function init() {
     boardsManager.loadBoards();
-    let refreshButton = document.getElementById('refresh');
     domManager.addEventListener("#refresh", "click", refresh)
+
 }
 
 function refresh() {
