@@ -4,6 +4,7 @@ import {domManager} from "./view/domManager.js";
 
 
 function init() {
+    console.log("x")
     boardsManager.loadBoards();
     domManager.addEventListener("#refresh", "click", refresh)
 
