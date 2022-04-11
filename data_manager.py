@@ -4,6 +4,9 @@ import psycopg2.extras
 import queries
 import bcrypt
 
+connection_string = os.environ.get('postgres://kfzdeooocscsap:b35b62662aec7b21e2e20f29c96c8b254d79c34798005a6b494237f47537e661@ec2-99-80-170-190.eu-west-1.compute.amazonaws.com:5432/dc2ll767bf4mmi')
+connection = psycopg2.connect(connection_string)
+
 
 def establish_connection(connection_data=None):
     """
