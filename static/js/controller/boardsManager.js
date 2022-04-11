@@ -90,7 +90,7 @@ async function addNewCard(clickEvent) {
     await dataHandler.createNewCard("New card", boardId, statusId[0].min);
     let newCardData = await dataHandler.getNewCardData()
     if (button.innerText === "Hide cards") {
-        let content = `<div draggable="true" id="${newCardData[0].id}" title="${boardId}" class="card col${newCardData[0].status_id}" data-card-id="${newCardData[0].id}" contenteditable="true">${newCardData[0].title}
+        let content = `<div draggable="true" id="${newCardData[0].id}" title="${boardId}" class="card col${newCardData[0].status_id}" data-card-id="${newCardData[0].id}" contenteditable="false">${newCardData[0].title}
                     <div class="card-remove" data-remove-card-id="${newCardData[0].id}">x</div>
                 </div>`;
         domManager.addChild(`.board-column-content[data-column-id="${newCardData[0].board_id}${newCardData[0].status_id}"]`, content);

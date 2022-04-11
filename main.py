@@ -15,7 +15,7 @@ load_dotenv()
 def index():
     return render_template('index.html')
 
-
+# put
 @app.route("/api/swap/<string:card_1>/<string:card_2>", methods=["POST"])
 @json_response
 def swap_cards(card_1, card_2):
@@ -51,7 +51,6 @@ def get_cards_for_board(board_id: int):
 @app.route("/api/statuses")
 @json_response
 def get_statuses():
-    print ()
     return queries.get_all_columns_names()
 
 

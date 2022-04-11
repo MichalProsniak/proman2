@@ -58,12 +58,21 @@ export function changeColumnTitle(clickEvent) {
 export async function changeCardTitle(clickEvent) {
     let cardId = clickEvent.target.dataset.cardId;
     let element = document.querySelector(`.card[data-card-id='${cardId}']`);
+    element.addEventListener('dblclick', async () => {
+        element.contentEditable = true
+        element.draggable = false
+    })
     element.addEventListener('focusout', async () => {
         let title = element.innerText
+        if (title.slice(-1) === "x") {
+            title = title.slice(0, -1)
+        }
         if (title === '') {
             title = 'no name'
         }
         await dataHandler.renameCard(cardId, title)
+        element.contentEditable = false
+        element.draggable = true
     })
 }
 
