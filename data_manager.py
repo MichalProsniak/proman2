@@ -8,20 +8,15 @@ connection_string = os.environ.get("DATABASE_URL")
 connection = psycopg2.connect(connection_string)
 
 
-def establish_connection(connection_data=None):
+def establish_connection():
     """
     Create a database connection based on the :connection_data: parameter
     :connection_data: Connection string attributes
     :returns: psycopg2.connection
     """
-    if connection_data is None:
-        connection_data = get_connection_data()
     try:
-        connect_str = "dbname={} user={} host={} password={}".format(connection_data['dbname'],
-                                                                     connection_data['user'],
-                                                                     connection_data['host'],
-                                                                     connection_data['password'])
-        conn = psycopg2.connect(connect_str)
+        connection_string = os.environ.get("DATABASE_URL")
+        conn = psycopg2.connect(connection_string)
         conn.autocommit = True
     except psycopg2.DatabaseError as e:
         print("Cannot connect to database.")
@@ -57,7 +52,7 @@ def execute_select(statement, variables=None, fetchall=True):
     statement: SELECT statement
     variables:  optional parameter dict, optional parameter fetchall"""
     result_set = []
-    with connection as conn:
+    with establish_connection() as conn:
         with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
             cursor.execute(statement, variables)
             result_set = cursor.fetchall() if fetchall else cursor.fetchone()
@@ -94,7 +89,7 @@ def open_database():
 
 def connection_handler(function):
     def wrapper(*args, **kwargs):
-        connection = open_database()
+        connection = establish_connection()
         dict_cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         ret_value = function(dict_cur, *args, **kwargs)
         dict_cur.close()
