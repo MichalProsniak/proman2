@@ -34,9 +34,11 @@ def get_boards():
     """
     return data_manager.execute_select(
         """
-        SELECT * FROM boards
+        SELECT boards.id, boards.title, private, user_id, COUNT(s.id) AS statuses FROM boards
+        LEFT JOIN statuses s on boards.id = s.board_id
         WHERE private = 0
-        ORDER BY id
+        GROUP BY boards.id
+        ORDER BY boards.id
         ;""")
 
 
@@ -47,9 +49,11 @@ def get_private_boards(user_id):
     """
     all_private_boards = data_manager.execute_select(
         """
-        SELECT * FROM boards
+        SELECT boards.id, boards.title, private, user_id, COUNT(s.id) AS statuses FROM boards
+        LEFT JOIN statuses s on boards.id = s.board_id
         WHERE private = 1 AND user_id = %(user_id)s
-        ORDER BY id
+        GROUP BY boards.id
+        ORDER BY boards.id
         ;"""
         , {"user_id": user_id})
     return all_private_boards
@@ -66,13 +70,16 @@ def get_cards_for_board(board_id):
     return matching_cards
 
 
-def get_all_columns_names():
-    return data_manager.execute_select(
+def get_all_columns_names(board_id):
+    columns = data_manager.execute_select(
         """
         SELECT * 
         FROM statuses
+        WHERE board_id = %(board_id)s
         ORDER BY id
-        ;""")
+        ;"""
+        , {"board_id": board_id})
+    return columns
 
 
 @data_manager.connection_handler
@@ -218,6 +225,16 @@ def delete_all_cards_from_board(cursor, board_id):
 
 
 @data_manager.connection_handler
+def delete_all_columns_from_board(cursor, board_id):
+    cursor.execute(
+        sql.SQL("""
+                DELETE FROM statuses 
+                WHERE board_id = {board_id};
+            """).format(board_id=sql.Literal(board_id), )
+    )
+
+
+@data_manager.connection_handler
 def delete_board(cursor, board_id):
     cursor.execute(
         sql.SQL("""
@@ -228,12 +245,12 @@ def delete_board(cursor, board_id):
 
 
 @data_manager.connection_handler
-def add_column(cursor):
+def add_column(cursor, board_id):
     cursor.execute(
         sql.SQL("""
-            INSERT INTO statuses (title)
-            VALUES ('new status');
-        """)
+            INSERT INTO statuses (title, board_id)
+            VALUES ('new status', {board_id});
+        """).format(board_id=sql.Literal(board_id), )
     )
 
 
@@ -358,11 +375,14 @@ def create_new_private_board(cursor, title, user_id):
     cursor.execute(query, (title, 1, user_id))
 
 
-def get_lowest_status():
-    return data_manager.execute_select(
+def get_lowest_status(board_id):
+    lowest = data_manager.execute_select(
         """
         SELECT MIN(id) FROM statuses
-        ;""")
+        WHERE board_id = %(board_id)s
+        ;"""
+    , {"board_id": board_id})
+    return lowest
 
     query = """
            UPDATE
@@ -373,14 +393,14 @@ def get_lowest_status():
            """
     cursor.execute(query, (card_2_title, card_1,))
 
-    query = """
-           UPDATE
-           cards
-           SET
-           title = %s
-           WHERE id = %s;
-           """
-    cursor.execute(query, (card_1_title, card_2,))
+def get_board_and_status_id(card_id):
+    data = data_manager.execute_select(
+        """
+        SELECT board_id, status_id FROM cards
+        WHERE id = %(card_id)s
+        ;"""
+        , {"card_id": card_id})
+    return data
 
 
 @data_manager.connection_handler

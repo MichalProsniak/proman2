@@ -11,8 +11,7 @@ hideArchiveBtn.addEventListener('click', function (){hideArchive()});
 
 export let cardsManager = {
     loadCards: async function (boardId) {
-        console.log (archive)
-        const statuses = await dataHandler.getStatuses();
+        const statuses = await dataHandler.getStatuses(boardId);
         const cards = await dataHandler.getCardsByBoardId(boardId);
         for (let column of statuses) {
             const columnBuilder = htmlFactory(htmlTemplates.status)
@@ -90,7 +89,19 @@ export async function changeCardTitle(clickEvent) {
             title = title.slice(0, -1)
         }
         if (title === '') {
-            title = 'no name'
+            element.innerText = 'no name'
+            let contentDeleteCard = `<div class="card-remove" data-remove-card-id="${cardId}">x</div>`
+            domManager.addChild(`.card[data-card-id='${cardId}']`, contentDeleteCard)
+            domManager.addEventListener(`.card-remove[data-remove-card-id="${cardId}"]`, 'click', deleteButtonHandler)
+        } else {
+            let title = element.innerText
+            if (title.slice(-1) === "x") {
+                title = title.slice(0, -1)
+            }
+            element.innerText = title
+            let contentDeleteCard = `<div class="card-remove" data-remove-card-id="${cardId}">x</div>`
+            domManager.addChild(`.card[data-card-id='${cardId}']`, contentDeleteCard)
+            domManager.addEventListener(`.card-remove[data-remove-card-id="${cardId}"]`, 'click', deleteButtonHandler)
         }
         await dataHandler.renameCard(cardId, title)
         element.contentEditable = false
@@ -159,6 +170,7 @@ function dragLeave(e) {
 }
 
 async function dropColumn(e) {
+    console.log('column')
     let dropzoneID = e.currentTarget.id
     const draggableID = e.dataTransfer.getData('text/plain');
     let boardID = document.getElementById(draggableID).title
@@ -168,6 +180,7 @@ async function dropColumn(e) {
 }
 
 async function dropCard(e){
+    console.log ('card')
     await eventRemove()
     let dropzoneID = e.currentTarget.id
     const draggableID = e.dataTransfer.getData('text/plain');
