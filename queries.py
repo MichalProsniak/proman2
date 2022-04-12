@@ -381,3 +381,20 @@ def get_lowest_status():
            WHERE id = %s;
            """
     cursor.execute(query, (card_1_title, card_2,))
+
+
+@data_manager.connection_handler
+def archive(cursor, user_id):
+    query = """
+        UPDATE cards
+        SET archive = %s
+        WHERE id = %s"""
+    cursor.execute(query, ("true",user_id))
+
+@data_manager.connection_handler
+def unarchive(cursor, user_id):
+    query = """
+        UPDATE cards
+        SET archive = %s
+        WHERE id = %s"""
+    cursor.execute(query, ("false",user_id))

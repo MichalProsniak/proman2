@@ -201,6 +201,16 @@ def add_new_private_board(title):
 def get_lowest_status_id():
     return queries.get_lowest_status()
 
+@app.route('/api/archive/<string:cardID>')
+@json_response
+def archive_card(cardID):
+    return queries.archive(cardID)
+
+@app.route('/api/unarchive/<string:cardID>')
+@json_response
+def unarchive_card(cardID):
+    return queries.unarchive(cardID)
+
 
 def main():
     app.run(debug=True)

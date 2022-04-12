@@ -7,6 +7,7 @@
     --status-5: darkgoldenrod;
     --status-6: yellowgreen;
     --status-7: #085900;
+    --status-8: black
 }
 
 #boards {
@@ -208,6 +209,10 @@ section.board{
 
 .board-column:nth-of-type(7) .card{
     background: var(--status-7);
+}
+
+.board-column:nth-of-type(8) .card{
+    background: var(--status-8);
 }
 
 

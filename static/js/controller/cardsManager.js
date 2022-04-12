@@ -1,9 +1,17 @@
 import {dataHandler} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
+import {refresh} from "../main.js";
+
+let archive = false;
+const showArchiveBtn = document.getElementById('archive');
+showArchiveBtn.addEventListener('click', function (){showArchive()});
+const hideArchiveBtn = document.getElementById('hide-archive');
+hideArchiveBtn.addEventListener('click', function (){hideArchive()});
 
 export let cardsManager = {
     loadCards: async function (boardId) {
+        console.log (archive)
         const statuses = await dataHandler.getStatuses();
         const cards = await dataHandler.getCardsByBoardId(boardId);
         for (let column of statuses) {
@@ -13,15 +21,29 @@ export let cardsManager = {
             domManager.addEventListener(`.board-column-title[data-column-id="${boardId}${column.id}"]`, "click", changeColumnTitle)
             domManager.addEventListener(`.column-remove[data-remove-status-id="${boardId}${column.id}"]`, "click", removeColumn)
             for (let card of cards) {
-                if (card.status_id === column.id) {
+                if (card.status_id === column.id && archive == false) { if (card.archive == 'false') {
                     const cardBuilder = htmlFactory(htmlTemplates.card);
-                    const content = cardBuilder(card, column);
+                    const content = await cardBuilder(card, column);
                     domManager.addChild(`.board-column-content[data-column-id="${boardId}${column.id}"]`, content);
                     domManager.addEventListener(`.card-remove[data-remove-card-id="${card.id}"]`, "click", deleteButtonHandler);
                     domManager.addEventListener(`.card[data-card-id='${card.id}']`, "click", changeCardTitle)
+                    let archiveBtn = document.getElementById(`archive${card.id}`)
+                    archiveBtn.addEventListener('click',async function (){archiveCard(card.id,card.board_id)})
+                }
+                }
+                else if (card.status_id === column.id && archive==true) { if (card.archive == 'true') {
+                    const cardBuilder = htmlFactory(htmlTemplates.card);
+                    const content = await cardBuilder(card, column, archive);
+                    domManager.addChild(`.board-column-content[data-column-id="${boardId}${column.id}"]`, content);
+                    domManager.addEventListener(`.card-remove[data-remove-card-id="${card.id}"]`, "click", deleteButtonHandler);
+                    domManager.addEventListener(`.card[data-card-id='${card.id}']`, "click", changeCardTitle);
+                    let unarchiveBtn = document.getElementById(`unarchive${card.id}`);
+                    unarchiveBtn.addEventListener('click',async function (){unarchiveCard(card.id,card.board_id)})
+                }
                 }
             }
-        } await findCards()
+        }
+        await findCards()
     },
 };
 
@@ -137,7 +159,6 @@ function dragLeave(e) {
 }
 
 async function dropColumn(e) {
-    console.log('column')
     let dropzoneID = e.currentTarget.id
     const draggableID = e.dataTransfer.getData('text/plain');
     let boardID = document.getElementById(draggableID).title
@@ -147,7 +168,6 @@ async function dropColumn(e) {
 }
 
 async function dropCard(e){
-    console.log ('card')
     await eventRemove()
     let dropzoneID = e.currentTarget.id
     const draggableID = e.dataTransfer.getData('text/plain');
@@ -169,4 +189,30 @@ async function clearCards (boardID){
 async function btnClick(i){
     let btn = document.querySelector(`.toggle-board-button[data-board-id="${i+1}"]`)
     setTimeout((btn.click()),3000)
+}
+
+async function archiveCard (cardID, boardID) {
+    console.log ('archive', cardID, boardID)
+    dataHandler.archive(cardID)
+    clearCards(boardID-1)
+}
+async function unarchiveCard (cardID, boardID) {
+    console.log (cardID, boardID)
+    dataHandler.unarchive(cardID)
+    clearCards(boardID-1)
+}
+async function showArchive(){
+    archive = true
+    console.log ('showed')
+    refresh()
+    showArchiveBtn.style.display = 'none'
+    hideArchiveBtn.style.display = 'flex'
+}
+
+async function hideArchive(){
+    archive = false
+    console.log ('hidden')
+    refresh()
+    showArchiveBtn.style.display = 'flex'
+    hideArchiveBtn.style.display = 'none'
 }

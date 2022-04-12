@@ -58,6 +58,12 @@ export let dataHandler = {
     },
     getLowestStatusId: async function (){
         return await apiGet(`/api/lowest-status-id`)
+    },
+    archive: async function (cardID){
+        return await apiGet(`/api/archive/${cardID}`)
+    },
+    unarchive: async function (cardID){
+        return await apiGet(`/api/unarchive/${cardID}`)
     }
 };
 

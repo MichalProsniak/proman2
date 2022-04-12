@@ -10,7 +10,7 @@ function init() {
 
 }
 
-function refresh() {
+export function refresh() {
     removeAllBoards()
     boardsManager.loadBoards();
 }
