@@ -114,6 +114,8 @@ section.board{
     border-radius: 15px;
     margin: 4px 0;
     padding: 4px;
+    /*min-height: 20px;*/
+    /*max-width: 300px;*/
 }
 
 .card-remove{
@@ -229,4 +231,15 @@ section.board{
 
 #boards {
     background-color: green;
+}
+.unarchiveBtn::before {
+  font-weight: bold;
+  color: white;
+  content: "Undo archiving";
+}
+
+.archiveBtn::before {
+  font-weight: bold;
+  color: white;
+  content: "Archive";
 }

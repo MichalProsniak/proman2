@@ -11,6 +11,7 @@ hideArchiveBtn.addEventListener('click', function (){hideArchive()});
 
 export let cardsManager = {
     loadCards: async function (boardId) {
+        console.log (archive)
         const statuses = await dataHandler.getStatuses();
         const cards = await dataHandler.getCardsByBoardId(boardId);
         for (let column of statuses) {
@@ -31,6 +32,8 @@ export let cardsManager = {
                 }
                 }
                 else if (card.status_id === column.id && archive==true) { if (card.archive == 'true') {
+                    console.log (card)
+                    await hideBoardButtons ()
                     const cardBuilder = htmlFactory(htmlTemplates.card);
                     const content = await cardBuilder(card, column, archive);
                     domManager.addChild(`.board-column-content[data-column-id="${boardId}${column.id}"]`, content);
@@ -208,17 +211,18 @@ async function btnClick(i){
 }
 
 async function archiveCard (cardID, boardID) {
-
+    console.log ('archive', cardID, boardID)
     dataHandler.archive(cardID)
     clearCards(boardID-1)
 }
 async function unarchiveCard (cardID, boardID) {
-
+    console.log (cardID, boardID)
     dataHandler.unarchive(cardID)
     clearCards(boardID-1)
 }
 async function showArchive(){
     archive = true
+    console.log ('showed')
     refresh()
     showArchiveBtn.style.display = 'none'
     hideArchiveBtn.style.display = 'flex'
@@ -226,7 +230,12 @@ async function showArchive(){
 
 async function hideArchive(){
     archive = false
+    console.log ('hidden')
     refresh()
     showArchiveBtn.style.display = 'flex'
     hideArchiveBtn.style.display = 'none'
 }
+
+function hideBoardButtons (){}
+    // let addBtns = document.getElementsByClassName('board-add')
+    // let deleteBtns = document.getElementsByClassName()

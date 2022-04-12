@@ -67,6 +67,9 @@ async function addNewBoard (){
     let titleValue = "New board"
     await dataHandler.addBoard(titleValue)
         let lastID = await dataHandler.getMaxId()
+        for (let i = 0; i < 4; i++) {
+            await dataHandler.addNewColumn(lastID[0].max)
+        }
         const boards = await dataHandler.getBoards();
         for (let board of boards) { if (board.id === lastID[0].max){
             const boardBuilder = htmlFactory(htmlTemplates.board);
@@ -86,7 +89,7 @@ async function addNewBoard (){
 async function addNewCard(clickEvent) {
     let boardId = clickEvent.target.dataset.boardId;
     let button = document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`);
-    let statusId = await dataHandler.getLowestStatusId();
+    let statusId = await dataHandler.getLowestStatusId(boardId);
     await dataHandler.createNewCard("New card", boardId, statusId[0].min);
     let newCardData = await dataHandler.getNewCardData()
     if (button.innerText === "Hide cards") {
@@ -113,33 +116,25 @@ async function deleteBoard(clickEvent) {
 }
 
 async function addColumn(clickEvent) {
-    let numberOfStatuses = await dataHandler.getStatuses()
+    let boardId = clickEvent.target.dataset.boardId
+    let numberOfStatuses = await dataHandler.getStatuses(boardId)
     if (numberOfStatuses.length <= 6) {
         if (numberOfStatuses.length === 6) {
-            let allButtons = document.getElementsByClassName(`add-column`);
-            for (let button of allButtons) {
-                button.innerText = "Can't add new column"
-            }
+            let button = document.querySelector(`.add-column[data-board-id='${boardId}']`);
+            button.innerText = "Can't add new column"
         }
-        await dataHandler.addNewColumn()
+        await dataHandler.addNewColumn(boardId)
         let newColumn = await dataHandler.newColumnData()
-        let allBoards = await dataHandler.getAllBoardsIds()
-        for (let currentBoardId of allBoards) {
-            let button = document.querySelector(`.toggle-board-button[data-board-id="${currentBoardId.id}"]`);
-            if (button.innerText === "Hide cards") {
-                let newId = currentBoardId.id;
-                let newColumnContent = columnBuilder(newColumn[0], newId)
-                domManager.addChild(`.board-columns[data-board-id="${currentBoardId.id}"]`, newColumnContent);
-                domManager.addEventListener(`.column-remove[data-remove-status-id="${newId}${newColumn[0].id}"]`, "click", removeColumn)
-                domManager.addEventListener(`.board-column-title[data-column-id="${newId}${newColumn[0].id}"]`, "click", changeColumnTitle)
-            }
+        let newColumnContent = columnBuilder(newColumn[0], boardId)
+        if (document.querySelector(`.toggle-board-button[data-board-id='${boardId}']`).innerText === 'Hide cards') {
+            domManager.addChild(`.board-columns[data-board-id="${boardId}"]`, newColumnContent);
+            domManager.addEventListener(`.column-remove[data-remove-status-id="${boardId}${newColumn[0].id}"]`, "click", removeColumn)
+            domManager.addEventListener(`.board-column-title[data-column-id="${boardId}${newColumn[0].id}"]`, "click", changeColumnTitle)
             findCards()
         }
     } else {
-        let allButtons = document.getElementsByClassName(`add-column`);
-        for (let button of allButtons) {
-            button.innerText = "Can't add new column"
-        }
+        let button = document.querySelector(`.add-column[data-board-id='${boardId}']`);
+        button.innerText = "Can't add new column"
     }
 }
 
@@ -155,6 +150,9 @@ async function addNewPrivateBoard() {
             let newTitle = "New Private board"
             await dataHandler.addNewPrivateBoard(newTitle)
             let lastID = await dataHandler.getMaxId()
+            for (let i = 0; i < 4; i++) {
+                await dataHandler.addNewColumn(lastID[0].max)
+            }
             const boards = await dataHandler.getBoards();
             for (let board of boards) {
                 if (board.id === lastID[0].max) {

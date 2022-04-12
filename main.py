@@ -26,7 +26,6 @@ def swap_cards(card_1, card_2):
 @app.route("/api/newCardPos/<string:col>/<string:card>/<string:boardID>", methods=["POST"])
 @json_response
 def newCardPos(col, card, boardID):
-    print ('new position')
     queries.newCardPos(int(col), int(card), int(boardID))
 
 
@@ -34,6 +33,7 @@ def newCardPos(col, card, boardID):
 @json_response
 def get_boards():
     not_private_boards = queries.get_boards()
+    print(not_private_boards)
     if "user_id" in session:
         user_id = session["user_id"]
         private_boards = queries.get_private_boards(user_id)
@@ -48,10 +48,10 @@ def get_cards_for_board(board_id: int):
     return queries.get_cards_for_board(board_id)
 
 
-@app.route("/api/statuses")
+@app.route("/api/statuses/<int:board_id>")
 @json_response
-def get_statuses():
-    return queries.get_all_columns_names()
+def get_statuses(board_id):
+    return queries.get_all_columns_names(board_id)
 
 
 @app.route("/api/max-id")
@@ -156,13 +156,14 @@ def get_new_card_data():
 @json_response
 def delete_specific_board(board_id):
     queries.delete_all_cards_from_board(board_id)
+    queries.delete_all_columns_from_board(board_id)
     queries.delete_board(board_id)
 
 
-@app.route("/api/add-new-column", methods=["POST"])
+@app.route("/api/add-new-column/<int:board_id>", methods=["POST"])
 @json_response
-def add_new_column():
-    queries.add_column()
+def add_new_column(board_id):
+    queries.add_column(board_id)
 
 
 @app.route("/api/new-column")
@@ -196,10 +197,16 @@ def add_new_private_board(title):
     queries.create_new_private_board(title, user_id)
 
 
-@app.route('/api/lowest-status-id')
+@app.route('/api/lowest-status-id/<int:board_id>')
 @json_response
-def get_lowest_status_id():
-    return queries.get_lowest_status()
+def get_lowest_status_id(board_id):
+    return queries.get_lowest_status(board_id)
+
+
+@app.route('/api/board/status/<int:card_id>')
+@json_response
+def get_board_and_status_id(card_id):
+    return queries.get_board_and_status_id(card_id)
 
 @app.route('/api/archive/<string:cardID>')
 @json_response
