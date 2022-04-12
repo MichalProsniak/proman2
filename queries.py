@@ -34,9 +34,11 @@ def get_boards():
     """
     return data_manager.execute_select(
         """
-        SELECT * FROM boards
+        SELECT boards.id, boards.title, private, user_id, COUNT(s.id) AS statuses FROM boards
+        LEFT JOIN statuses s on boards.id = s.board_id
         WHERE private = 0
-        ORDER BY id
+        GROUP BY boards.id
+        ORDER BY boards.id
         ;""")
 
 
@@ -47,9 +49,11 @@ def get_private_boards(user_id):
     """
     all_private_boards = data_manager.execute_select(
         """
-        SELECT * FROM boards
+        SELECT boards.id, boards.title, private, user_id, COUNT(s.id) AS statuses FROM boards
+        LEFT JOIN statuses s on boards.id = s.board_id
         WHERE private = 1 AND user_id = %(user_id)s
-        ORDER BY id
+        GROUP BY boards.id
+        ORDER BY boards.id
         ;"""
         , {"user_id": user_id})
     return all_private_boards

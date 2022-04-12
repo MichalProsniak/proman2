@@ -26,7 +26,6 @@ def swap_cards(card_1, card_2):
 @app.route("/api/newCardPos/<string:col>/<string:card>/<string:boardID>", methods=["POST"])
 @json_response
 def newCardPos(col, card, boardID):
-    print ('new position')
     queries.newCardPos(int(col), int(card), int(boardID))
 
 
@@ -34,6 +33,7 @@ def newCardPos(col, card, boardID):
 @json_response
 def get_boards():
     not_private_boards = queries.get_boards()
+    print(not_private_boards)
     if "user_id" in session:
         user_id = session["user_id"]
         private_boards = queries.get_private_boards(user_id)
