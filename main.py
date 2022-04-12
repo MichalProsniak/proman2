@@ -203,6 +203,12 @@ def get_lowest_status_id(board_id):
     return queries.get_lowest_status(board_id)
 
 
+@app.route('/api/board/status/<int:card_id>')
+@json_response
+def get_board_and_status_id(card_id):
+    return queries.get_board_and_status_id(card_id)
+
+
 def main():
     app.run(debug=True)
     # Serving the favicon

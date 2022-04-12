@@ -385,20 +385,11 @@ def get_lowest_status(board_id):
     return lowest
 
 
-    # query = """
-    #        UPDATE
-    #        cards
-    #        SET
-    #        title = %s
-    #        WHERE id = %s;
-    #        """
-    # cursor.execute(query, (card_2_title, card_1,))
-    #
-    # query = """
-    #        UPDATE
-    #        cards
-    #        SET
-    #        title = %s
-    #        WHERE id = %s;
-    #        """
-    # cursor.execute(query, (card_1_title, card_2,))
+def get_board_and_status_id(card_id):
+    data = data_manager.execute_select(
+        """
+        SELECT board_id, status_id FROM cards
+        WHERE id = %(card_id)s
+        ;"""
+        , {"card_id": card_id})
+    return data

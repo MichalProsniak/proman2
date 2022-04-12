@@ -58,6 +58,9 @@ export let dataHandler = {
     },
     getLowestStatusId: async function (boardId){
         return await apiGet(`/api/lowest-status-id/${boardId}`)
+    },
+    getBoardAndStatusId: async function (cardId) {
+        return await apiGet(`/api/board/status/${cardId}`)
     }
 };
 

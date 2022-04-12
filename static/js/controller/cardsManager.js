@@ -69,7 +69,19 @@ export async function changeCardTitle(clickEvent) {
             title = title.slice(0, -1)
         }
         if (title === '') {
-            title = 'no name'
+            element.innerText = 'no name'
+            let contentDeleteCard = `<div class="card-remove" data-remove-card-id="${cardId}">x</div>`
+            domManager.addChild(`.card[data-card-id='${cardId}']`, contentDeleteCard)
+            domManager.addEventListener(`.card-remove[data-remove-card-id="${cardId}"]`, 'click', deleteButtonHandler)
+        } else {
+            let title = element.innerText
+            if (title.slice(-1) === "x") {
+                title = title.slice(0, -1)
+            }
+            element.innerText = title
+            let contentDeleteCard = `<div class="card-remove" data-remove-card-id="${cardId}">x</div>`
+            domManager.addChild(`.card[data-card-id='${cardId}']`, contentDeleteCard)
+            domManager.addEventListener(`.card-remove[data-remove-card-id="${cardId}"]`, 'click', deleteButtonHandler)
         }
         await dataHandler.renameCard(cardId, title)
         element.contentEditable = false
