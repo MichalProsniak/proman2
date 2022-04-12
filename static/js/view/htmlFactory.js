@@ -53,12 +53,12 @@ async function cardBuilder(card, column, archive = false) {
     if (archive == true){
         return `<div draggable="true" id="${card.id}" title="${card.board_id}" class="card col${column.id}" style = "background-color:black" data-card-id="${card.id}" contenteditable="false">${card.title}
                 <div class="card-remove" data-remove-card-id="${card.id}">x</div>
-                <button id="unarchive${card.id}">unarchive</button>
+                <button id="archive${card.id}"  contenteditable="false" class="unarchiveBtn" style="content: 'ebebe';margin-left: 50%" readonly></button></div>
             </div>`;}
     else {
-        return `<div draggable="true" id="${card.id}" title="${card.board_id}" class="card col${column.id}" data-card-id="${card.id}" contenteditable="false">${card.title}
+        return `<div></div><div draggable="true" id="${card.id}" title="${card.board_id}" class="card col${column.id}" data-card-id="${card.id}" contenteditable="false">${card.title}
                 <div class="card-remove" data-remove-card-id="${card.id}">x</div>
-                <button id="archive${card.id}">archive</button>
+                <button id="archive${card.id}"  contenteditable="false" class="archiveBtn" style="content: 'ebebe';margin-left: 40%" readonly></button></div>
             </div>`;}
 }
 
