@@ -5,7 +5,7 @@ import {refresh} from "../main.js";
 
 let archive = false;
 const showArchiveBtn = document.getElementById('archive');
-showArchiveBtn.addEventListener('click', function (){showArchive()});
+showArchiveBtn.addEventListener('click', async function (){await showArchive()});
 const hideArchiveBtn = document.getElementById('hide-archive');
 hideArchiveBtn.addEventListener('click', function (){hideArchive()});
 
@@ -222,10 +222,23 @@ async function unarchiveCard (cardID, boardID) {
 async function showArchive(){
     archive = true
     console.log ('showed')
-    refresh()
+    await refresh()
+    let buttons = document.getElementsByClassName('board-add')
+    while (buttons.length > 0) {
+        buttons[0].remove()
+    }
+    let buttons1 = document.getElementsByClassName('board-delete')
+    while (buttons1.length > 0) {
+        buttons1[0].remove()
+    }
+    let buttons2 = document.getElementsByClassName('add-column')
+    while (buttons2.length > 0) {
+        buttons2[0].remove()
+    }
     showArchiveBtn.style.display = 'none'
     hideArchiveBtn.style.display = 'flex'
 }
+
 
 async function hideArchive(){
     archive = false
