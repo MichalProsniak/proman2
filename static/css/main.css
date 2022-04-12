@@ -221,3 +221,14 @@ section.board{
 #boards {
     background-color: green;
 }
+.unarchiveBtn::before {
+  font-weight: bold;
+  color: white;
+  content: "Undo archiving";
+}
+
+.archiveBtn::before {
+  font-weight: bold;
+  color: white;
+  content: "Archive";
+}

@@ -22,6 +22,7 @@ export let cardsManager = {
             domManager.addEventListener(`.board-column-title[data-column-id="${boardId}${column.id}"]`, "click", changeColumnTitle)
             domManager.addEventListener(`.column-remove[data-remove-status-id="${boardId}${column.id}"]`, "click", removeColumn)
             for (let card of cards) {
+                console.log (card)
                 console.log(card.status_id,column.id, 'ebe')
                 if (card.status_id === column.id && archive == false) { if (card.archive == 'false') {
                     console.log (card)
@@ -36,6 +37,7 @@ export let cardsManager = {
                 }
                 else if (card.status_id === column.id && archive==true) { if (card.archive == 'true') {
                     console.log (card)
+                    await hideBoardButtons ()
                     const cardBuilder = htmlFactory(htmlTemplates.card);
                     const content = await cardBuilder(card, column, archive);
                     domManager.addChild(`.board-column-content[data-column-id="${boardId}${column.id}"]`, content);
@@ -83,6 +85,7 @@ export function changeColumnTitle(clickEvent) {
 
 export async function changeCardTitle(clickEvent) {
     let cardId = clickEvent.target.dataset.cardId;
+    let boardId = document.getElementById(cardId).title
     let element = document.querySelector(`.card[data-card-id='${cardId}']`);
     element.addEventListener('dblclick', async () => {
         element.contentEditable = true
@@ -105,7 +108,11 @@ export async function changeCardTitle(clickEvent) {
             }
             element.innerText = title
             let contentDeleteCard = `<div class="card-remove" data-remove-card-id="${cardId}">x</div>`
-            domManager.addChild(`.card[data-card-id='${cardId}']`, contentDeleteCard)
+            let contentArchiveBtn = ` <button id="archive${cardId}"  contenteditable="false" class="archiveBtn" readonly></button>`
+            domManager.addChild(`.card[data-card-id='${cardId}']`, contentDeleteCard);
+            domManager.addChild(`.card[data-card-id='${cardId}']`, contentArchiveBtn);
+            let archiveBtn = document.getElementById(`archive${cardId}`);
+            archiveBtn.addEventListener('click',async function (){archiveCard(cardId,boardId)});
             domManager.addEventListener(`.card-remove[data-remove-card-id="${cardId}"]`, 'click', deleteButtonHandler)
         }
         await dataHandler.renameCard(cardId, title)
@@ -247,3 +254,7 @@ async function hideArchive(){
     showArchiveBtn.style.display = 'flex'
     hideArchiveBtn.style.display = 'none'
 }
+
+function hideBoardButtons (){}
+    // let addBtns = document.getElementsByClassName('board-add')
+    // let deleteBtns = document.getElementsByClassName()
