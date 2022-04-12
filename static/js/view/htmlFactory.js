@@ -38,13 +38,13 @@ function boardBuilder(board) {
 async function cardBuilder(card, column, archive = false) {
     if (archive == true){
         return `<div draggable="true" id="${card.id}" title="${card.board_id}" class="card col${column.id}" style = "background-color:black" data-card-id="${card.id}" contenteditable="false">${card.title}
-                <div class="card-remove" data-remove-card-id="${card.id}">x</div>
-                <button id="unarchive${card.id}">unarchive</button>
+                <div class="card-remove" data-remove-card-id="${card.id}" id="x${card.id}">x</div>
+                <button class="buttonArchive" id="unarchive${card.id}">undo archiving</button>
             </div>`;}
     else {
         return `<div draggable="true" id="${card.id}" title="${card.board_id}" class="card col${column.id}" data-card-id="${card.id}" contenteditable="false">${card.title}
-                <div class="card-remove" data-remove-card-id="${card.id}">x</div>
-                <button id="archive${card.id}">archive</button>
+                <div class="card-remove" data-remove-card-id="${card.id}" id="x${card.id}">x</div>
+                <button class="buttonArchive" id="archive${card.id}">archive</button>
             </div>`;}
 }
 
