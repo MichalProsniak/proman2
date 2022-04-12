@@ -2,8 +2,8 @@ export let dataHandler = {
     getBoards: async function () {
         return await apiGet("/api/boards");
     },
-    getStatuses: async function () {
-        return await apiGet(`api/statuses`);
+    getStatuses: async function (boardId) {
+        return await apiGet(`api/statuses/${boardId}`);
     },
     getCardsByBoardId: async function (boardId) {
         return await apiGet(`/api/boards/${boardId}/cards/`);
@@ -35,8 +35,8 @@ export let dataHandler = {
     deleteBoard: async function (boardId){
         await apiPost(`/api/delete-board/${boardId}`)
     },
-    addNewColumn: async function () {
-        await apiPost(`/api/add-new-column`)
+    addNewColumn: async function (boardId) {
+        await apiPost(`/api/add-new-column/${boardId}`)
     },
     newColumnData: async function () {
         return apiGet('/api/new-column')
@@ -56,8 +56,8 @@ export let dataHandler = {
     addNewPrivateBoard: async function (title){
         await apiPost(`/api/new-private-board/${title}`)
     },
-    getLowestStatusId: async function (){
-        return await apiGet(`/api/lowest-status-id`)
+    getLowestStatusId: async function (boardId){
+        return await apiGet(`/api/lowest-status-id/${boardId}`)
     }
 };
 

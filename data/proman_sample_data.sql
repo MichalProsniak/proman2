@@ -94,3 +94,12 @@ alter table boards
 alter table boards
     add constraint boards_users_id_fk
         foreign key (user_id) references users;
+
+alter table statuses
+    add board_id int;
+
+alter table statuses
+    add constraint statuses_boards_id_fk
+        foreign key (board_id) references boards;
+
+
