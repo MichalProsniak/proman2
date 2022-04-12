@@ -11,8 +11,10 @@ hideArchiveBtn.addEventListener('click', function (){hideArchive()});
 
 export let cardsManager = {
     loadCards: async function (boardId) {
+        console.log (boardId)
         const statuses = await dataHandler.getStatuses(boardId);
         const cards = await dataHandler.getCardsByBoardId(boardId);
+        console.log (statuses)
         for (let column of statuses) {
             const columnBuilder = htmlFactory(htmlTemplates.status)
             const columnsContent = columnBuilder(column, boardId)
@@ -20,7 +22,9 @@ export let cardsManager = {
             domManager.addEventListener(`.board-column-title[data-column-id="${boardId}${column.id}"]`, "click", changeColumnTitle)
             domManager.addEventListener(`.column-remove[data-remove-status-id="${boardId}${column.id}"]`, "click", removeColumn)
             for (let card of cards) {
+                console.log(card.status_id,column.id, 'ebe')
                 if (card.status_id === column.id && archive == false) { if (card.archive == 'false') {
+                    console.log (card)
                     const cardBuilder = htmlFactory(htmlTemplates.card);
                     const content = await cardBuilder(card, column);
                     domManager.addChild(`.board-column-content[data-column-id="${boardId}${column.id}"]`, content);
@@ -31,6 +35,7 @@ export let cardsManager = {
                 }
                 }
                 else if (card.status_id === column.id && archive==true) { if (card.archive == 'true') {
+                    console.log (card)
                     const cardBuilder = htmlFactory(htmlTemplates.card);
                     const content = await cardBuilder(card, column, archive);
                     domManager.addChild(`.board-column-content[data-column-id="${boardId}${column.id}"]`, content);
