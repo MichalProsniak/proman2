@@ -98,7 +98,7 @@ export async function changeCardTitle(clickEvent) {
         element.contentEditable = true
         element.draggable = false
     })
-    if (counter == 0) {
+    if (counter === 0) {
         element.addEventListener('focusout', await async function () {
             console.log('funkcja działa')
             let title = element.textContent
@@ -111,18 +111,19 @@ export async function changeCardTitle(clickEvent) {
 
             element.contentEditable = false
             element.draggable = true
-             if (document.getElementById(`archive${cardId}`)) {
-                document.getElementById(`archive${cardId}`).innerText = 'archive'
-                document.getElementById(`archive${cardId}`).style.display = ''
-            }else {
-                document.getElementById(`unarchive${cardId}`).style.display = ''
-                document.getElementById(`unarchive${cardId}`).innerText = 'undo archiving'
-            }
-            document.getElementById(`x${cardId}`).innerText = 'x'
+            //  if (document.getElementById(`archive${cardId}`)) {
+            //     document.getElementById(`archive${cardId}`).innerText = 'archive'
+            //     document.getElementById(`archive${cardId}`).style.display = ''
+            // }else {
+            //     document.getElementById(`unarchive${cardId}`).style.display = ''
+            //     document.getElementById(`unarchive${cardId}`).innerText = 'undo archiving'
+            // }
+            // document.getElementById(`x${cardId}`).innerText = 'x'
             await dataHandler.renameCard(cardId, title)
             let boardId = element.title
             counter ++
-            await clearCards(boardId+1)
+            let btn = document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`)
+            await btn.click()
         })
     }
 
