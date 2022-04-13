@@ -120,7 +120,7 @@ async function deleteBoard(clickEvent) {
     let boardId = clickEvent.target.dataset.boardId;
     await dataHandler.deleteBoard(boardId);
     let board = document.querySelector(`.board-container[data-board-id="${boardId}"]`);
-    board.remove();
+    await board.remove();
 }
 
 async function addColumn(clickEvent) {
