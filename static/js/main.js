@@ -10,9 +10,9 @@ function init() {
 
 }
 
-export function refresh() {
+export async function refresh() {
     removeAllBoards()
-    boardsManager.loadBoards();
+    await boardsManager.loadBoards();
 }
 
 init();
