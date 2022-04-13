@@ -84,6 +84,7 @@ async function addNewBoard (){
             domManager.addEventListener(`.board-add[data-board-id="${board.id}"]`, "click", addNewCard);
             domManager.addEventListener(`.board-delete[data-board-id="${board.id}"]`, "click", deleteBoard);
             domManager.addEventListener(`.add-column[data-board-id="${board.id}"]`, "click", addColumn);
+            document.getElementById(board.id).style.background = "#497A77FF"
         }}})
         }
 
