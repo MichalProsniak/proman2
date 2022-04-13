@@ -6,7 +6,7 @@ import {changeColumnTitle} from "./cardsManager.js";
 import {deleteButtonHandler} from "./cardsManager.js";
 import {changeCardTitle} from "./cardsManager.js";
 import {removeColumn} from "./cardsManager.js";
-import {findCards} from "./cardsManager.js";
+import {findCards,clearCards} from "./cardsManager.js";
 
 export let boardsManager = {
     loadBoards: async function () {
@@ -94,7 +94,8 @@ async function addNewCard(clickEvent) {
     let newCardData = await dataHandler.getNewCardData()
     if (button.innerText === "Hide cards") {
         let content = `<div draggable="true" id="${newCardData[0].id}" title="${boardId}" class="card col${newCardData[0].status_id}" data-card-id="${newCardData[0].id}" contenteditable="false">${newCardData[0].title}
-                    <div class="card-remove" data-remove-card-id="${newCardData[0].id}">x</div>
+                    <div class="card-remove" data-remove-card-id="${newCardData[0].id}" id="x${newCardData[0].id}">x</div>
+                    <button class="buttonArchive" id="archive${newCardData[0].id}">archive</button>
                 </div>`;
         domManager.addChild(`.board-column-content[data-column-id="${newCardData[0].board_id}${newCardData[0].status_id}"]`, content);
         domManager.addEventListener(`.board-column-title[data-column-id="${newCardData[0].board_id}${newCardData[0].status_id}"]`, "click", changeColumnTitle)
@@ -104,6 +105,11 @@ async function addNewCard(clickEvent) {
             deleteButtonHandler
         );
         domManager.addEventListener(`.card[data-card-id='${newCardData[0].id}']`, "click", changeCardTitle)
+        document.getElementById(`archive${newCardData[0].id}`).addEventListener('click',async function (){
+            await dataHandler.archive(newCardData[0].id);
+            await clearCards(boardId-1)
+        })
+
     }
      findCards()
 }

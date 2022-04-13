@@ -3,6 +3,7 @@ import {htmlFactory, htmlTemplates} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
 import {refresh} from "../main.js";
 
+let counter
 let archive = false;
 const showArchiveBtn = document.getElementById('archive');
 showArchiveBtn.addEventListener('click', function (){showArchive()});
@@ -11,10 +12,8 @@ hideArchiveBtn.addEventListener('click', function (){hideArchive()});
 
 export let cardsManager = {
     loadCards: async function (boardId) {
-        console.log (boardId)
         const statuses = await dataHandler.getStatuses(boardId);
         const cards = await dataHandler.getCardsByBoardId(boardId);
-        console.log (statuses)
         for (let column of statuses) {
             const columnBuilder = htmlFactory(htmlTemplates.status)
             const columnsContent = columnBuilder(column, boardId)
@@ -22,27 +21,27 @@ export let cardsManager = {
             domManager.addEventListener(`.board-column-title[data-column-id="${boardId}${column.id}"]`, "click", changeColumnTitle)
             domManager.addEventListener(`.column-remove[data-remove-status-id="${boardId}${column.id}"]`, "click", removeColumn)
             for (let card of cards) {
-                console.log (card)
-                console.log(card.status_id,column.id, 'ebe')
                 if (card.status_id === column.id && archive == false) { if (card.archive == 'false') {
-                    console.log (card)
                     const cardBuilder = htmlFactory(htmlTemplates.card);
                     const content = await cardBuilder(card, column);
                     domManager.addChild(`.board-column-content[data-column-id="${boardId}${column.id}"]`, content);
                     domManager.addEventListener(`.card-remove[data-remove-card-id="${card.id}"]`, "click", deleteButtonHandler);
-                    domManager.addEventListener(`.card[data-card-id='${card.id}']`, "click", changeCardTitle)
+
+                    document.querySelector(`.card[data-card-id='${card.id}']`).removeEventListener("dblclick", await changeCardTitle)
+                    domManager.addEventListener(`.card[data-card-id='${card.id}']`, "dblclick", await changeCardTitle)
                     let archiveBtn = document.getElementById(`archive${card.id}`)
                     archiveBtn.addEventListener('click',async function (){archiveCard(card.id,card.board_id)})
                 }
                 }
                 else if (card.status_id === column.id && archive==true) { if (card.archive == 'true') {
-                    console.log (card)
+
                     await hideBoardButtons ()
                     const cardBuilder = htmlFactory(htmlTemplates.card);
                     const content = await cardBuilder(card, column, archive);
                     domManager.addChild(`.board-column-content[data-column-id="${boardId}${column.id}"]`, content);
                     domManager.addEventListener(`.card-remove[data-remove-card-id="${card.id}"]`, "click", deleteButtonHandler);
-                    domManager.addEventListener(`.card[data-card-id='${card.id}']`, "click", changeCardTitle);
+                    document.querySelector(`.card[data-card-id='${card.id}']`).removeEventListener("dblclick", await changeCardTitle)
+                    domManager.addEventListener(`.card[data-card-id='${card.id}']`, "dblclick",await changeCardTitle);
                     let unarchiveBtn = document.getElementById(`unarchive${card.id}`);
                     unarchiveBtn.addEventListener('click',async function (){unarchiveCard(card.id,card.board_id)})
                 }
@@ -84,9 +83,10 @@ export function changeColumnTitle(clickEvent) {
 }
 
 export async function changeCardTitle(clickEvent) {
+    counter = 0
     let cardId = clickEvent.target.dataset.cardId;
     let element = document.querySelector(`.card[data-card-id='${cardId}']`);
-    element.addEventListener('dblclick', async () => {
+    element.addEventListener('dblclick', await async function ()  {
         if (document.getElementById(`archive${cardId}`)) {
             document.getElementById(`archive${cardId}`).style.display = 'none'
             document.getElementById(`archive${cardId}`).innerText = ''
@@ -98,27 +98,35 @@ export async function changeCardTitle(clickEvent) {
         element.contentEditable = true
         element.draggable = false
     })
-    element.addEventListener('focusout', async () => {
-        let title = element.textContent
-        console.log (title)
-        if (title.slice(-1) === "x") {
-            title = title.slice(0, -1)
-        }
-        if (title === '') {
-            title = 'no name'
-        }
-        await dataHandler.renameCard(cardId, title)
-        element.contentEditable = false
-        element.draggable = true
-        if (document.getElementById(`archive${cardId}`)) {
-            document.getElementById(`archive${cardId}`).innerText = 'archive'
-            document.getElementById(`archive${cardId}`).style.display = ''
-        }else {
-            document.getElementById(`unarchive${cardId}`).style.display = ''
-            document.getElementById(`unarchive${cardId}`).innerText = 'undo archiving'
-        }
-        document.getElementById(`x${cardId}`).innerText = 'x'
-    })
+    if (counter == 0) {
+        element.addEventListener('focusout', await async function () {
+            console.log('funkcja działa')
+            let title = element.textContent
+            // if (title.slice(-7,-1) === "archive") {
+            //     title = title.slice(0, -7)
+            // }
+            if (title === '') {
+                element.textContent = 'no name'
+            }
+
+            element.contentEditable = false
+            element.draggable = true
+             if (document.getElementById(`archive${cardId}`)) {
+                document.getElementById(`archive${cardId}`).innerText = 'archive'
+                document.getElementById(`archive${cardId}`).style.display = ''
+            }else {
+                document.getElementById(`unarchive${cardId}`).style.display = ''
+                document.getElementById(`unarchive${cardId}`).innerText = 'undo archiving'
+            }
+            document.getElementById(`x${cardId}`).innerText = 'x'
+            await dataHandler.renameCard(cardId, title)
+            let boardId = element.title
+            counter ++
+            await clearCards(boardId+1)
+        })
+    }
+
+
 }
 
 export async function removeColumn(clickEvent) {
@@ -200,7 +208,8 @@ async function dropCard(e){
     clearCards((boardID-1))
 }
 
-async function clearCards (boardID){
+export async function clearCards (boardID){
+    console.log ('clear')
     let btn = document.querySelectorAll('.toggle-board-button')
     let counter = 0
     while (counter<2){
@@ -211,22 +220,22 @@ async function clearCards (boardID){
 
 async function btnClick(i){
     let btn = document.querySelector(`.toggle-board-button[data-board-id="${i+1}"]`)
-    setTimeout((btn.click()),3000)
+    setTimeout((await btn.click()),3000)
 }
 
 async function archiveCard (cardID, boardID) {
-    console.log ('archive', cardID, boardID)
+
     dataHandler.archive(cardID)
     clearCards(boardID-1)
 }
 async function unarchiveCard (cardID, boardID) {
-    console.log (cardID, boardID)
+
     dataHandler.unarchive(cardID)
     clearCards(boardID-1)
 }
 async function showArchive(){
     archive = true
-    console.log ('showed')
+
     refresh()
     showArchiveBtn.style.display = 'none'
     hideArchiveBtn.style.display = 'flex'
@@ -235,7 +244,6 @@ async function showArchive(){
 
 async function hideArchive(){
     archive = false
-    console.log ('hidden')
     refresh()
     showArchiveBtn.style.display = 'flex'
     hideArchiveBtn.style.display = 'none'
