@@ -6,9 +6,9 @@ import {refresh} from "../main.js";
 let counter
 let archive = false;
 const showArchiveBtn = document.getElementById('archive');
-showArchiveBtn.addEventListener('click', function (){showArchive()});
+showArchiveBtn.addEventListener('click', async function (){await showArchive()});
 const hideArchiveBtn = document.getElementById('hide-archive');
-hideArchiveBtn.addEventListener('click', function (){hideArchive()});
+hideArchiveBtn.addEventListener('click', async function (){await hideArchive()});
 
 export let cardsManager = {
     loadCards: async function (boardId) {
@@ -237,8 +237,10 @@ async function unarchiveCard (cardID, boardID) {
 }
 async function showArchive(){
     archive = true
-
-    refresh()
+    await refresh()
+    document.querySelectorAll('.board-add').forEach(e => e.remove())
+    document.querySelectorAll('.board-delete').forEach(e => e.remove())
+    document.querySelectorAll('.add-column').forEach(e => e.remove())
     showArchiveBtn.style.display = 'none'
     hideArchiveBtn.style.display = 'flex'
     document.body.style.background = '#8D8D8DFF'
