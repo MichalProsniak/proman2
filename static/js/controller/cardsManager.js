@@ -85,39 +85,39 @@ export function changeColumnTitle(clickEvent) {
 
 export async function changeCardTitle(clickEvent) {
     let cardId = clickEvent.target.dataset.cardId;
-    let boardId = document.getElementById(cardId).title
     let element = document.querySelector(`.card[data-card-id='${cardId}']`);
     element.addEventListener('dblclick', async () => {
+        if (document.getElementById(`archive${cardId}`)) {
+            document.getElementById(`archive${cardId}`).style.display = 'none'
+            document.getElementById(`archive${cardId}`).innerText = ''
+        }else {
+            document.getElementById(`unarchive${cardId}`).style.display = 'none'
+            document.getElementById(`unarchive${cardId}`).innerText = ''
+        }
+        document.getElementById(`x${cardId}`).innerText = ''
         element.contentEditable = true
         element.draggable = false
     })
     element.addEventListener('focusout', async () => {
-        let title = element.innerText
+        let title = element.textContent
+        console.log (title)
         if (title.slice(-1) === "x") {
             title = title.slice(0, -1)
         }
         if (title === '') {
-            element.innerText = 'no name'
-            let contentDeleteCard = `<div class="card-remove" data-remove-card-id="${cardId}">x</div>`
-            domManager.addChild(`.card[data-card-id='${cardId}']`, contentDeleteCard)
-            domManager.addEventListener(`.card-remove[data-remove-card-id="${cardId}"]`, 'click', deleteButtonHandler)
-        } else {
-            let title = element.innerText
-            if (title.slice(-1) === "x") {
-                title = title.slice(0, -1)
-            }
-            element.innerText = title
-            let contentDeleteCard = `<div class="card-remove" data-remove-card-id="${cardId}">x</div>`
-            let contentArchiveBtn = ` <button id="archive${cardId}"  contenteditable="false" class="archiveBtn" readonly></button>`
-            domManager.addChild(`.card[data-card-id='${cardId}']`, contentDeleteCard);
-            domManager.addChild(`.card[data-card-id='${cardId}']`, contentArchiveBtn);
-            let archiveBtn = document.getElementById(`archive${cardId}`);
-            archiveBtn.addEventListener('click',async function (){archiveCard(cardId,boardId)});
-            domManager.addEventListener(`.card-remove[data-remove-card-id="${cardId}"]`, 'click', deleteButtonHandler)
+            title = 'no name'
         }
         await dataHandler.renameCard(cardId, title)
         element.contentEditable = false
         element.draggable = true
+        if (document.getElementById(`archive${cardId}`)) {
+            document.getElementById(`archive${cardId}`).innerText = 'archive'
+            document.getElementById(`archive${cardId}`).style.display = ''
+        }else {
+            document.getElementById(`unarchive${cardId}`).style.display = ''
+            document.getElementById(`unarchive${cardId}`).innerText = 'undo archiving'
+        }
+        document.getElementById(`x${cardId}`).innerText = ''
     })
 }
 
@@ -182,7 +182,6 @@ function dragLeave(e) {
 }
 
 async function dropColumn(e) {
-    console.log('column')
     let dropzoneID = e.currentTarget.id
     const draggableID = e.dataTransfer.getData('text/plain');
     let boardID = document.getElementById(draggableID).title
@@ -192,7 +191,6 @@ async function dropColumn(e) {
 }
 
 async function dropCard(e){
-    console.log ('card')
     await eventRemove()
     let dropzoneID = e.currentTarget.id
     const draggableID = e.dataTransfer.getData('text/plain');
@@ -244,6 +242,7 @@ async function showArchive(){
     }
     showArchiveBtn.style.display = 'none'
     hideArchiveBtn.style.display = 'flex'
+    document.body.style.background = '#8D8D8DFF'
 }
 
 
@@ -253,6 +252,7 @@ async function hideArchive(){
     refresh()
     showArchiveBtn.style.display = 'flex'
     hideArchiveBtn.style.display = 'none'
+    document.body.style.background =  "#ddd url(http://cdn.backgroundhost.com/backgrounds/subtlepatterns/diagonal-noise.png)"
 }
 
 function hideBoardButtons (){}
