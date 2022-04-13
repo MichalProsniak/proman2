@@ -106,10 +106,9 @@ async function addNewCard(clickEvent) {
             deleteButtonHandler
         );
         domManager.addEventListener(`.card[data-card-id='${newCardData[0].id}']`, "click", changeCardTitle)
-        document.getElementById(`archive${newCardData[0].id}`).addEventListener('click',async function (){
+        document.getElementById(`archive${newCardData[0].id}`).addEventListener('click',await async function (){
             await dataHandler.archive(newCardData[0].id);
             await clearCards(boardId-1)
-
         })
 
     }
