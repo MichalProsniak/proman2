@@ -86,7 +86,7 @@ export async function changeCardTitle(clickEvent) {
     counter = 0
     let cardId = clickEvent.target.dataset.cardId;
     let element = document.querySelector(`.card[data-card-id='${cardId}']`);
-    element.addEventListener('dblclick', await async function ()  {
+
         if (document.getElementById(`archive${cardId}`)) {
             document.getElementById(`archive${cardId}`).style.display = 'none'
             document.getElementById(`archive${cardId}`).innerText = ''
@@ -97,7 +97,7 @@ export async function changeCardTitle(clickEvent) {
         document.getElementById(`x${cardId}`).innerText = ''
         element.contentEditable = true
         element.draggable = false
-    })
+
     if (counter === 0) {
         element.addEventListener('focusout', await async function () {
             console.log('funkcja działa')
@@ -112,18 +112,12 @@ export async function changeCardTitle(clickEvent) {
 
             element.contentEditable = false
             element.draggable = true
-            //  if (document.getElementById(`archive${cardId}`)) {
-            //     document.getElementById(`archive${cardId}`).innerText = 'archive'
-            //     document.getElementById(`archive${cardId}`).style.display = ''
-            // }else {
-            //     document.getElementById(`unarchive${cardId}`).style.display = ''
-            //     document.getElementById(`unarchive${cardId}`).innerText = 'undo archiving'
-            // }
-            // document.getElementById(`x${cardId}`).innerText = 'x'
+
             await dataHandler.renameCard(cardId, title)
             let boardId = element.title
             counter ++
             let btn = document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`)
+            await btn.click()
             await btn.click()
         })
     }

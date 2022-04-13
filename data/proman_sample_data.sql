@@ -54,9 +54,6 @@ CREATE TABLE IF NOT EXISTS users (
 ---
 
 
-INSERT INTO boards(title) VALUES ('Board 1');
-INSERT INTO boards(title) VALUES ('Board 2');
-
 
 
 ---
