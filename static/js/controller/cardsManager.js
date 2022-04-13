@@ -26,7 +26,7 @@ export let cardsManager = {
                     const content = await cardBuilder(card, column);
                     domManager.addChild(`.board-column-content[data-column-id="${boardId}${column.id}"]`, content);
                     domManager.addEventListener(`.card-remove[data-remove-card-id="${card.id}"]`, "click", deleteButtonHandler);
-
+                    document.querySelector(`.card[data-card-id='${card.id}']`).removeEventListener("dblclick", await changeCardTitle)
                     document.querySelector(`.card[data-card-id='${card.id}']`).removeEventListener("dblclick", await changeCardTitle)
                     domManager.addEventListener(`.card[data-card-id='${card.id}']`, "dblclick", await changeCardTitle)
                     let archiveBtn = document.getElementById(`archive${card.id}`)
@@ -122,7 +122,6 @@ export async function changeCardTitle(clickEvent) {
             await dataHandler.renameCard(cardId, title)
             let boardId = element.title
             counter ++
-            await clearCards(boardId+1)
         })
     }
 

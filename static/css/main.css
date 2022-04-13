@@ -41,7 +41,7 @@ button{
 }
 
 .buttonArchive{
-    margin-left: 45%;
+    /*margin-left: 45%;*/
     background: #ffffff;
     color: #000000;
     border: none;
@@ -65,7 +65,7 @@ section.board{
 
 .board-header{
     height: 50px;
-    background: #fff;
+    background: #78c9b9;
     border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 

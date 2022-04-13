@@ -22,9 +22,9 @@ export function htmlFactory(template) {
 
 function boardBuilder(board) {
     if (board.statuses < 7) {
-        return `<div class="board-container" data-board-id="${board.id}">
+        return `<div class="board-container" data-board-id="${board.id}" >
                     <section class="board" data-board-id="${board.id}">
-                        <div class="board-header"><span class="board-title" data-title-id="${board.id}" contenteditable="true">${board.title}</span>
+                        <div class="board-header" id="${board.id}"><span class="board-title" data-title-id="${board.id}" contenteditable="true">${board.title}</span>
                             <button class="board-add" data-board-id="${board.id}">Add Card</button>
                             <button class="board-delete" data-board-id="${board.id}">Delete Board</button>
                             <button class="add-column" data-board-id="${board.id}">Add Column</button>
@@ -51,15 +51,14 @@ function boardBuilder(board) {
 
 async function cardBuilder(card, column, archive = false) {
     if (archive == true){
-        return `<div draggable="true" id="${card.id}" title="${card.board_id}" class="card col${column.id}" style = "background-color:black" data-card-id="${card.id}" contenteditable="false">${card.title}
+        return `<div draggable="true" id="${card.id}" title="${card.board_id}" class="card col${column.id}" style = "background-color:black" data-card-id="${card.id}" contenteditable="false">${card.title}</div>
                 <div class="card-remove" data-remove-card-id="${card.id}" id="x${card.id}">x</div>
                 <button class="buttonArchive" id="unarchive${card.id}">undo archiving</button>
-            </div>`;}
+            `;}
     else {
         return `<div draggable="true" id="${card.id}" title="${card.board_id}" class="card col${column.id}" data-card-id="${card.id}" contenteditable="false">${card.title}
-                <div class="card-remove" data-remove-card-id="${card.id}" id="x${card.id}">x</div>
-                <button class="buttonArchive" id="archive${card.id}">archive</button>
-            </div>`;}
+                <div class="card-remove" data-remove-card-id="${card.id}" id="x${card.id}">x</div></div>
+                <button class="buttonArchive" id="archive${card.id}">archive</button></div>`;}
 }
 
 export function columnBuilder(column, boardId) {
