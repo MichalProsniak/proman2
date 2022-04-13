@@ -108,9 +108,10 @@ async function addNewCard(clickEvent) {
         domManager.addEventListener(`.card[data-card-id='${newCardData[0].id}']`, "click", changeCardTitle)
         document.getElementById(`archive${newCardData[0].id}`).addEventListener('click',await async function (){
             await dataHandler.archive(newCardData[0].id);
-            await clearCards(boardId-1)
         })
-
+            let btn = document.querySelector(`.toggle-board-button[data-board-id="${boardId}"]`)
+            await btn.click()
+            await btn.click()
     }
      findCards()
 }

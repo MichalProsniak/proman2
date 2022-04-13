@@ -214,7 +214,7 @@ export async function clearCards (boardID){
     }
 }
 
-async function btnClick(i){
+export async function btnClick(i){
     let btn = document.querySelector(`.toggle-board-button[data-board-id="${i+1}"]`)
     setTimeout((await btn.click()),3000)
 }
