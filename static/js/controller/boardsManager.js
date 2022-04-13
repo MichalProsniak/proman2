@@ -84,7 +84,6 @@ async function addNewBoard (){
             domManager.addEventListener(`.board-add[data-board-id="${board.id}"]`, "click", addNewCard);
             domManager.addEventListener(`.board-delete[data-board-id="${board.id}"]`, "click", deleteBoard);
             domManager.addEventListener(`.add-column[data-board-id="${board.id}"]`, "click", addColumn);
-            document.getElementById(board.id).style.background = "#497A77FF"
         }}})
         }
 
@@ -110,6 +109,7 @@ async function addNewCard(clickEvent) {
         document.getElementById(`archive${newCardData[0].id}`).addEventListener('click',async function (){
             await dataHandler.archive(newCardData[0].id);
             await clearCards(boardId-1)
+
         })
 
     }
@@ -172,6 +172,7 @@ async function addNewPrivateBoard() {
                     domManager.addEventListener(`.board-add[data-board-id="${board.id}"]`, "click", addNewCard);
                     domManager.addEventListener(`.board-delete[data-board-id="${board.id}"]`, "click", deleteBoard);
                     domManager.addEventListener(`.add-column[data-board-id="${board.id}"]`, "click", addColumn);
+                    document.getElementById(board.id).style.background = "#497A77FF"
                 }
             }
         })
