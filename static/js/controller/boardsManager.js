@@ -178,3 +178,4 @@ async function addNewPrivateBoard() {
         })
     }
 }
+

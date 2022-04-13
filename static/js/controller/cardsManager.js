@@ -242,14 +242,14 @@ async function showArchive(){
     document.querySelectorAll('.board-delete').forEach(e => e.remove())
     document.querySelectorAll('.add-column').forEach(e => e.remove())
     showArchiveBtn.style.display = 'none'
-    hideArchiveBtn.style.display = 'flex'
+    hideArchiveBtn.style.display = 'inline-block'
     document.body.style.background = '#8D8D8DFF'
 }
 
 async function hideArchive(){
     archive = false
     refresh()
-    showArchiveBtn.style.display = 'flex'
+    showArchiveBtn.style.display = 'inline-block'
     hideArchiveBtn.style.display = 'none'
     document.body.style.background =  "#ddd url(http://cdn.backgroundhost.com/backgrounds/subtlepatterns/diagonal-noise.png)"
 }

@@ -18,27 +18,29 @@
     <body>
             <div >
                 {% if "username" in session %}
-                <a href="/logout"><button style="margin-left: 67%"TYPE="button">Logout</button></a>
-                <p style="margin-left: 35%">You are logged in as <strong>{{ session['username'] }}</strong>. Now, you can see all public and private boards!</p>
+                <a href="/logout"><button style="margin-left: 26%;display: inline-block" TYPE="button">Logout</button></a>
+                <p style="display: inline-block ">You are logged in as <strong>{{ session['username'] }}</strong>. Now, you can see all public and private boards!</p>
                 {% else %}
-                <a style="margin-left: 67%" href="/registration"><button TYPE="button">Registration</button></a>
-                <a href="/login"><button TYPE="button">Login</button></a><br><br>
-                <h4 style="margin-left: 37%">You are not logged in. Now, you can see only public boards!</h4><br><br>
+                    <a style="margin-left: 26%;display: inline-block" href="/login"><button TYPE="button">Login</button></a>
+                <a  href="/registration" ;><button TYPE="button">Registration</button></a>
+                    <p style="display: inline-block ">You are not logged in. Now, you can see only public boards!</p>
                 {% endif %}
             </div>
         <h1>ProMan</h1>
         <br>
-        <button id="refresh" style="margin-left: 67%">Refresh</button>
+        <button id="refresh" style="margin-left: 65%">Refresh</button>
         <div id="root"></div>
         <div id="all-boards"></div>
+            <div>
         {% if "username" in session %}
-        <button id="new-private-board" style="margin-left: 67%">Add new private board</button>
-            <br>
-            <br>
+        <button id="new-private-board" style="margin-left: 65%;display: inline-block;margin-bottom: 20px">Add new private board</button>
+
         {% endif %}
-        <button id="new-board" style="margin-left: 67%">Add new board</button>
-        <button id="archive" style="margin-left: 67%; display: flex">Archive</button>
-        <button id="hide-archive" style="margin-left: 67%; display: none">Hide Archive</button>
+
+        <button id="new-board" style="margin-left: 65%;display: inline-block;margin-bottom: 20px">Add new board</button>
+        <button id="archive" style="margin-left: 65%; display: inline-block;margin-bottom: 20px">Archive</button>
+
+        <button id="hide-archive" style="margin-left: 65%; display: none">Hide Archive</button></div>
       </div>
     </body>
 </html>
