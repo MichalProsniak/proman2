@@ -105,8 +105,9 @@ export async function changeCardTitle(clickEvent) {
             // if (title.slice(-7,-1) === "archive") {
             //     title = title.slice(0, -7)
             // }
-            if (title === '') {
+            if (title == '') {
                 element.textContent = 'no name'
+                title = 'no name'
             }
 
             element.contentEditable = false
