@@ -18,12 +18,12 @@
     <body>
             <div >
                 {% if "username" in session %}
-                <a href="/logout"><button style="margin-left: 70%"TYPE="button">Logout</button></a>
-                <p style="margin-left: 40%">You are logged in as <strong>{{ session['username'] }}</strong>. Now, you can see all public and private boards!</p>
+                <a href="/logout"><button style="margin-left: 67%"TYPE="button">Logout</button></a>
+                <p style="margin-left: 35%">You are logged in as <strong>{{ session['username'] }}</strong>. Now, you can see all public and private boards!</p>
                 {% else %}
-                <a style="margin-left: 70%" href="/registration"><button TYPE="button">Registration</button></a>
+                <a style="margin-left: 67%" href="/registration"><button TYPE="button">Registration</button></a>
                 <a href="/login"><button TYPE="button">Login</button></a><br><br>
-                <h4 style="margin-left: 40%">You are not logged in. Now, you can see only public boards!</h4><br><br>
+                <h4 style="margin-left: 37%">You are not logged in. Now, you can see only public boards!</h4><br><br>
                 {% endif %}
             </div>
         <h1>ProMan</h1>

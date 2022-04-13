@@ -11,9 +11,10 @@ hideArchiveBtn.addEventListener('click', function (){hideArchive()});
 
 export let cardsManager = {
     loadCards: async function (boardId) {
-        console.log (archive)
-        const statuses = await dataHandler.getStatuses();
+        console.log (boardId)
+        const statuses = await dataHandler.getStatuses(boardId);
         const cards = await dataHandler.getCardsByBoardId(boardId);
+        console.log (statuses)
         for (let column of statuses) {
             const columnBuilder = htmlFactory(htmlTemplates.status)
             const columnsContent = columnBuilder(column, boardId)
@@ -21,7 +22,10 @@ export let cardsManager = {
             domManager.addEventListener(`.board-column-title[data-column-id="${boardId}${column.id}"]`, "click", changeColumnTitle)
             domManager.addEventListener(`.column-remove[data-remove-status-id="${boardId}${column.id}"]`, "click", removeColumn)
             for (let card of cards) {
+                console.log (card)
+                console.log(card.status_id,column.id, 'ebe')
                 if (card.status_id === column.id && archive == false) { if (card.archive == 'false') {
+                    console.log (card)
                     const cardBuilder = htmlFactory(htmlTemplates.card);
                     const content = await cardBuilder(card, column);
                     domManager.addChild(`.board-column-content[data-column-id="${boardId}${column.id}"]`, content);
@@ -226,6 +230,7 @@ async function showArchive(){
     refresh()
     showArchiveBtn.style.display = 'none'
     hideArchiveBtn.style.display = 'flex'
+    document.body.style.background = '#8D8D8DFF'
 }
 
 async function hideArchive(){
@@ -234,6 +239,7 @@ async function hideArchive(){
     refresh()
     showArchiveBtn.style.display = 'flex'
     hideArchiveBtn.style.display = 'none'
+    document.body.style.background =  "#ddd url(http://cdn.backgroundhost.com/backgrounds/subtlepatterns/diagonal-noise.png)"
 }
 
 function hideBoardButtons (){}
