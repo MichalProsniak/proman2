@@ -117,7 +117,7 @@ export async function changeCardTitle(clickEvent) {
             document.getElementById(`unarchive${cardId}`).style.display = ''
             document.getElementById(`unarchive${cardId}`).innerText = 'undo archiving'
         }
-        document.getElementById(`x${cardId}`).innerText = ''
+        document.getElementById(`x${cardId}`).innerText = 'x'
     })
 }
 
